@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Drive Auth Test</title>
+</head>
+<body>
+  <h1>تسجيل الدخول باستخدام Google</h1>
+  <button onclick="handleAuthClick()">سجّل دخول</button>
+
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    const CLIENT_ID = 'ضع-الـ-Client-ID-بتاعك-هنا.apps.googleusercontent.com';
+    const SCOPES = 'https://www.googleapis.com/auth/drive.readonly';
+
+    function handleClientLoad() {
+      gapi.load('client:auth2', initClient);
+    }
+
+    function initClient() {
+      gapi.client.init({
+        clientId: CLIENT_ID,
+        scope: SCOPES
+      });
+    }
+
+    function handleAuthClick() {
+      gapi.auth2.getAuthInstance().signIn().then(() => {
+        alert("تم تسجيل الدخول بنجاح!");
+      });
+    }
+
+    window.onload = handleClientLoad;
+  </script>
+</body>
+</html>
