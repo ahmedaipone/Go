@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* ----- شاشة التحميل (Splash Screen) ----- */
+        /* ----- شاشة التحميل (Splash Screen) - تم التعديل هنا ----- */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -38,7 +38,11 @@
             align-items: center;
             z-index: 1000;
             transition: opacity 1s ease-out;
-            text-align: center; /* لمحاذاة النص والـ GIF في المنتصف */
+            text-align: center;
+            /* **الخلفية المتحركة تملأ الشاشة** */
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUVr6HF_U1RC-qW_5Cxi3-QuRG2jBj2KYBSdwhIs-sFw&s=10'); /* دولارات متساقطة */
+            background-size: cover; /* لضمان ملء الشاشة */
+            background-position: center;
         }
 
         #splash-screen.hidden {
@@ -47,16 +51,18 @@
         }
 
         #money-animation {
+            /* البنكير/الماكينة تظهر في المنتصف فوق الخلفية */
             width: 80vw;
             max-width: 500px;
             aspect-ratio: 16/9;
             object-fit: contain;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* ظل أوضح لتظهر فوق الخلفية */
+            z-index: 1001; /* للتأكيد أنها فوق الخلفية */
         }
+        
+        /* ----- باقي الـ CSS لم يتغير ----- */
 
-        /* ----- الواجهة الرئيسية (بعد التحميل) ----- */
         #main-content {
             opacity: 0;
             visibility: hidden;
@@ -68,7 +74,6 @@
             visibility: visible;
         }
 
-        /* ----- شريط الرأس (Header) ----- */
         .header {
             background-color: var(--header-bg-color);
             color: var(--white-text);
@@ -110,7 +115,6 @@
             background-color: #8FD89A;
         }
         
-        /* شريط المعلومات داخل المحتوى الرئيسي */
         .info-bar {
             background-color: var(--header-bg-color);
             color: var(--white-text);
@@ -123,14 +127,12 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* حاوية شبكة الألعاب */
         .games-container {
             padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* تصميم شبكة الألعاب (Grid) */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
@@ -138,7 +140,6 @@
             padding-bottom: 80px;
         }
 
-        /* تصميم خانة اللعبة الواحدة */
         .game-box {
             background-color: var(--game-box-color);
             border-radius: 10px;
@@ -166,8 +167,7 @@
             font-size: 16px;
             background-color: var(--game-box-color);
             border: 2px solid var(--white-text);
-            /* لتوضيح مكان الصورة */
-            background-image: url('https://i.imgur.com/W2h0e3c.png'); /* رابط صورة حمراء بسيطة */
+            background-image: url('https://i.imgur.com/W2h0e3c.png');
             background-size: cover;
             background-position: center;
         }
@@ -181,7 +181,6 @@
             margin-top: 5px;
         }
 
-        /* ----- شريط التنقل السفلي (Bottom Nav) ----- */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -219,8 +218,8 @@
 <body>
 
     <div id="splash-screen">
-        <img id="money-animation" src="https://prodigits.co.uk/pthumbs/screensavers/down/misc/dollars_a8lu5qp5.gif" alt="ماكينة عد النقود والدولارات">
-        <h2 style="color: var(--white-text);">جارٍ تجهيز عالم DiscoBet...</h2>
+        <img id="money-animation" src="https://i.pinimg.com/originals/3f/6d/cd/3f6dcddac3531046c36ac85d35420f7d.gif" alt="ماكينة عد النقود والدولارات">
+        <h2 style="color: var(--white-text); z-index: 1001;">جارٍ تجهيز عالم DiscoBet...</h2>
     </div>
 
     <div id="main-content">
@@ -266,7 +265,9 @@
             </div>
         </div>
 
-    </div> <script>
+    </div>
+
+<script>
     // --------------------------------------------------------
     // 1. توليد 100 خانة لعبة (Games Grid Generation)
     // --------------------------------------------------------
@@ -274,9 +275,7 @@
         const gridContainer = document.querySelector('.games-grid');
         let htmlContent = '';
 
-        // إنشاء 100 خانة (من 1 إلى 100)
         for (let i = 1; i <= 100; i++) {
-            // ملاحظة: data-game-id تستخدم لربط الروابط لاحقاً عند الضغط على الصورة
             htmlContent += `
                 <div class="game-box" data-game-id="${i}">
                     <div class="game-image">
@@ -298,37 +297,29 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         const splashScreen = document.getElementById('splash-screen');
         const mainContent = document.getElementById('main-content');
-        const DURATION = 10000; // 10 ثواني (10000 مللي ثانية)
+        const DURATION = 10000; // 10 ثواني
 
-        // قم بتوليد الخانات فوراً عند تحميل الصفحة
         generateGamesGrid();
 
-        // إخفاء شاشة التحميل وإظهار المحتوى الرئيسي بعد المدة المحددة (10 ثوان)
         setTimeout(() => {
-            // إخفاء Splash Screen
             splashScreen.classList.add('hidden');
-            
-            // إظهار المحتوى الرئيسي
             mainContent.classList.add('visible');
 
-            // إزالة Splash Screen من DOM بعد انتهاء حركة CSS
             setTimeout(() => {
                 splashScreen.style.display = 'none';
-            }, 1000); // 1000 مللي ثانية هي مدة الانتقال (transition) في CSS
+            }, 1000);
         }, DURATION);
     });
 
     // --------------------------------------------------------
-    // 3. (مرحلة لاحقة) كود التعديلات والروابط
+    // 3. (مرحلة لاحقة) كود الروابط
     // --------------------------------------------------------
     
-    // يمكنك إضافة كود هنا لربط أزرار التسجيل/الدخول بالروابط المطلوبة
     document.getElementById('login-btn').addEventListener('click', function() {
         // سيتم وضع الرابط لصفحة تسجيل الدخول هنا لاحقاً
         console.log('تم الضغط على تسجيل الدخول');
     });
 
-    // يمكنك إضافة كود هنا لربط الضغط على خانات الألعاب بالروابط المطلوبة
     document.querySelector('.games-grid').addEventListener('click', function(e) {
         const gameBox = e.target.closest('.game-box');
         if (gameBox) {
