@@ -299,18 +299,21 @@
         for (let i = 1; i <= 100; i++) {
             let gameLink;
             let gameName;
+            let gameDisplayName; // متغير لتخزين اسم العرض في الشريط السفلي
 
             if (i === 1) {
                 // **تخصيص الخانة رقم 1 (Thimbles) بالرابط الحقيقي**
                 gameName = 'thimbles';
                 gameLink = THIMBLES_URL; 
+                gameDisplayName = 'THIMBLES'; // **الاسم الذي سيظهر في الشريط السفلي للخانة**
             } else {
                 // **باقي الخانات (روابط خام/وهمية)**
                 const baseGameName = gameTemplates[(i - 2) % gameTemplates.length];
                 gameName = `${baseGameName}-${i}`; 
                 // الرابط الخام لباقي الألعاب (للتعديل لاحقاً)
                 gameLink = `https://${baseGameName}.inout.games/api/modes/game?gameMode=${gameName}&operatorId=[OPERATOR_ID]&authToken=[AUTH_TOKEN]&currency=USD&lang=ar&lobbyUrl=`;
-                gameName = baseGameName; // استخدم الاسم الأساسي للعرض
+                gameName = baseGameName; // استخدم الاسم الأساسي للعرض في الصورة
+                gameDisplayName = `خانة رقم: ${i}`; // الاسم الذي سيظهر لباقي الخانات
             }
             
             // وسم الرابط <a> حول الخانة
@@ -321,8 +324,7 @@
                             ${(i === 1) ? 'THIMBLES' : gameName.toUpperCase().replace('-', ' ')}
                         </div>
                         <div class="game-index">
-                            خانة رقم: ${i} 
-                        </div>
+                            ${gameDisplayName} </div>
                     </div>
                 </a>
             `;
