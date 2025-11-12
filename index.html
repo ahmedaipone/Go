@@ -24,7 +24,9 @@
             overflow-x: hidden;
         }
 
+        /* ------------------------------------------- */
         /* ----- شاشة التحميل (Splash Screen) ----- */
+        /* ------------------------------------------- */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -39,7 +41,6 @@
             z-index: 1000;
             transition: opacity 1s ease-out;
             text-align: center;
-            /* الخلفية المتحركة (فلوس متساقطة) */
             background-image: url('https://media.tenor.com/rV09EcbHvycAAAAM/money-rich.gif');
             background-size: cover;
             background-position: center;
@@ -51,7 +52,6 @@
         }
 
         #money-animation {
-            /* البنكير/الماكينة تظهر في المنتصف فوق الخلفية */
             width: 80vw;
             max-width: 500px;
             aspect-ratio: 16/9;
@@ -61,7 +61,101 @@
             z-index: 1001; 
         }
 
-        /* ----- الواجهة الرئيسية (بعد التحميل) ----- */
+        /* ------------------------------------------- */
+        /* ----- النوافذ المنبثقة (Modals) ----- */
+        /* ------------------------------------------- */
+        .modal {
+            display: none; /* مخفي افتراضياً */
+            position: fixed;
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6); /* خلفية سوداء شفافة */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: var(--main-bg-color);
+            margin: 5% auto; 
+            padding: 30px;
+            border: 1px solid var(--header-bg-color);
+            width: 80%;
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            animation-name: animatetop;
+            animation-duration: 0.4s
+        }
+        
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+
+        .close-btn {
+            color: var(--header-bg-color);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: var(--game-box-color);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .modal-content h3 {
+            color: var(--header-bg-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .modal-content input[type="text"],
+        .modal-content input[type="password"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid var(--header-bg-color);
+            box-sizing: border-box;
+            border-radius: 8px;
+            background-color: var(--white-text);
+        }
+
+        .modal-content button {
+            background-color: var(--game-box-color);
+            color: var(--white-text);
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button:hover {
+            background-color: #CD5C5C;
+        }
+        
+        #register-message, #login-message {
+            color: var(--game-box-color);
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 700;
+        }
+
+        /* ------------------------------------------- */
+        /* ----- باقي الـ CSS (الواجهة الرئيسية) ----- */
+        /* ------------------------------------------- */
+        
         #main-content {
             opacity: 0;
             visibility: hidden;
@@ -73,7 +167,6 @@
             visibility: visible;
         }
 
-        /* ----- شريط الرأس (Header) وباقي الأقسام ----- */
         .header {
             background-color: var(--header-bg-color);
             color: var(--white-text);
@@ -140,7 +233,6 @@
             padding-bottom: 80px;
         }
         
-        /* وسم الرابط لتفعيل النقر على الخانة بأكملها */
         .game-link {
             text-decoration: none; 
             color: inherit; 
@@ -178,12 +270,10 @@
             background-position: center;
         }
         
-        /* تخصيص صورة الخانة رقم 1 (Thimbles) */
         .game-image[data-game-name="thimbles"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFWVyhpDjT15JRgjnVPUVYEuR1-71eejGsYzIc7D1jdQIRQQESfz0H9a4&s=10'); 
         }
 
-        /* تخصيص صورة الخانة رقم 2 (Goldmines) */
         .game-image[data-game-name="goldmines"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsxp9mqj0odKbPwVV9P11nyd3v1W1SHTb4zkauujtpmg&s=10'); 
         }
@@ -231,9 +321,7 @@
         }
     </style>
 </head>
-<body>
-
-    <div id="splash-screen">
+<body> <div id="splash-screen">
         <img id="money-animation" src="https://i.pinimg.com/originals/3f/6d/cd/3f6dcddac3531046c36ac85d35420f7d.gif" alt="ماكينة عد النقود والدولارات">
         <h2 style="color: var(--white-text); z-index: 1001;">جارٍ تجهيز عالم DiscoBet...</h2>
     </div>
@@ -282,9 +370,36 @@
         </div>
 
     </div>
+    
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-modal="signup-modal">&times;</span>
+            <h3>إنشاء حساب جديد</h3>
+            <input type="text" id="reg-name" placeholder="الاسم الكامل" required>
+            <input type="text" id="reg-phone" placeholder="رقم الهاتف (سيستخدم كاسم مستخدم)" required>
+            <input type="password" id="reg-password" placeholder="كلمة السر (6 أحرف على الأقل، كبير وصغير)" required>
+            <input type="password" id="reg-confirm-password" placeholder="تأكيد كلمة السر" required>
+            <button id="register-submit">تأكيد التسجيل</button>
+            <div id="register-message"></div>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-modal="login-modal">&times;</span>
+            <h3>تسجيل الدخول</h3>
+            <input type="text" id="login-phone" placeholder="رقم الهاتف" required>
+            <input type="password" id="login-password" placeholder="كلمة السر" required>
+            <button id="login-submit">دخول</button>
+            <div id="login-message"></div>
+        </div>
+    </div>
+
 
 <script>
+    // --------------------------------------------------------
     // الروابط الحقيقية المخصصة
+    // --------------------------------------------------------
     const THIMBLES_URL = 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=demo&deviceType=2&lang=EN&operatorID=642CC14E&mainDomain=https://eg-1xbet.com/slots';
     const GOLDMINES_URL = 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR&backUrl=https://eg-1xbet.com/slots';
 
@@ -295,7 +410,6 @@
         const gridContainer = document.querySelector('.games-grid');
         let htmlContent = '';
         
-        // قائمة الألعاب وأنماطها الوهمية لباقي الخانات
         const gameTemplates = [
             'lucky-mines', 'crash-game', 'dice-roll', 'plinko', 'hilo', 
             'roulette', 'slots', 'blackjack', 'jackpot', 'keno'
@@ -307,31 +421,27 @@
             let gameDisplayName; 
 
             if (i === 1) {
-                // **تخصيص الخانة رقم 1 (Thimbles)**
                 gameName = 'thimbles';
                 gameLink = THIMBLES_URL; 
                 gameDisplayName = 'THIMBLES';
             } else if (i === 2) {
-                // **تخصيص الخانة رقم 2 (Goldmines)**
                 gameName = 'goldmines';
                 gameLink = GOLDMINES_URL;
                 gameDisplayName = 'GOLDMINES';
             } 
             else {
-                // **باقي الخانات (روابط خام/وهمية)**
-                const baseGameName = gameTemplates[(i - 3) % gameTemplates.length]; // تم تعديل (i-2) إلى (i-3) للبدء بعد الخانتين المخصصتين
+                const baseGameName = gameTemplates[(i - 3) % gameTemplates.length];
                 gameName = `${baseGameName}-${i}`; 
                 gameLink = `https://${baseGameName}.inout.games/api/modes/game?gameMode=${gameName}&operatorId=[OPERATOR_ID]&authToken=[AUTH_TOKEN]&currency=USD&lang=ar&lobbyUrl=`;
                 gameName = baseGameName;
                 gameDisplayName = `خانة رقم: ${i}`;
             }
             
-            // وسم الرابط <a> حول الخانة
             htmlContent += `
                 <a href="${gameLink}" target="_blank" class="game-link">
                     <div class="game-box" data-game-id="${i}">
                         <div class="game-image" data-game-name="${gameName}">
-                            ${gameDisplayName}
+                            ${(i === 1 || i === 2) ? gameDisplayName : gameName.toUpperCase().replace('-', ' ')}
                         </div>
                         <div class="game-index">
                             ${gameDisplayName}
@@ -365,15 +475,139 @@
     });
 
     // --------------------------------------------------------
-    // 3. (مرحلة لاحقة) كود الأزرار
+    // 3. إدارة النوافذ المنبثقة (Modals)
     // --------------------------------------------------------
-    
-    document.getElementById('login-btn').addEventListener('click', function() {
-        console.log('تم الضغط على تسجيل الدخول');
-        // هنا سيتم توجيهك لصفحة تسجيل الدخول
+    const loginModal = document.getElementById('login-modal');
+    const signupModal = document.getElementById('signup-modal');
+    const loginBtn = document.getElementById('login-btn');
+    const signupBtn = document.getElementById('signup-btn');
+    const closeBtns = document.querySelectorAll('.close-btn');
+
+    // فتح النوافذ
+    loginBtn.onclick = () => { loginModal.style.display = "block"; }
+    signupBtn.onclick = () => { signupModal.style.display = "block"; }
+
+    // إغلاق النوافذ باستخدام (x)
+    closeBtns.forEach(btn => {
+        btn.onclick = function() {
+            document.getElementById(this.getAttribute('data-modal')).style.display = "none";
+            document.getElementById('register-message').textContent = ''; 
+            document.getElementById('login-message').textContent = '';    
+        }
     });
 
-    // تم إزالة مستمع الأحداث الخاص بـ .games-grid لأنه تم تغييره إلى وسم <a> في HTML
+    // إغلاق النوافذ عند الضغط خارجها
+    window.onclick = (event) => {
+        if (event.target == loginModal) {
+            loginModal.style.display = "none";
+            document.getElementById('login-message').textContent = '';
+        }
+        if (event.target == signupModal) {
+            signupModal.style.display = "none";
+            document.getElementById('register-message').textContent = '';
+        }
+    }
+
+    // --------------------------------------------------------
+    // 4. وظيفة إنشاء حساب جديد (Register Logic)
+    // --------------------------------------------------------
+    document.getElementById('register-submit').onclick = () => {
+        const name = document.getElementById('reg-name').value.trim();
+        const phone = document.getElementById('reg-phone').value.trim();
+        const password = document.getElementById('reg-password').value;
+        const confirmPassword = document.getElementById('reg-confirm-password').value;
+        const messageDiv = document.getElementById('register-message');
+        
+        messageDiv.style.color = 'var(--game-box-color)';
+        messageDiv.textContent = ''; 
+
+        if (!name || !phone || !password || !confirmPassword) {
+            messageDiv.textContent = 'الرجاء ملء جميع الحقول.';
+            return;
+        }
+
+        if (password.length < 6) {
+            messageDiv.textContent = 'كلمة السر يجب أن تكون 6 أحرف على الأقل.';
+            return;
+        }
+        
+        const hasUpperCase = /[A-Z]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        
+        if (!hasUpperCase || !hasLowerCase) {
+            messageDiv.textContent = 'كلمة السر يجب أن تحتوي على أحرف كبيرة وصغيرة.';
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            messageDiv.textContent = 'كلمتا السر غير متطابقتين.';
+            return;
+        }
+        
+        if (localStorage.getItem(phone)) {
+            messageDiv.textContent = 'رقم الهاتف هذا مسجل بالفعل. يرجى تسجيل الدخول.';
+            return;
+        }
+
+        const userData = {
+            name: name,
+            password: password 
+        };
+        localStorage.setItem(phone, JSON.stringify(userData));
+
+        messageDiv.style.color = 'green';
+        messageDiv.textContent = '✅ تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.';
+        
+        document.getElementById('reg-name').value = '';
+        document.getElementById('reg-phone').value = '';
+        document.getElementById('reg-password').value = '';
+        document.getElementById('reg-confirm-password').value = '';
+
+        setTimeout(() => {
+            signupModal.style.display = "none";
+            loginModal.style.display = "block";
+            document.getElementById('login-phone').value = phone; 
+            document.getElementById('login-message').textContent = '';
+        }, 3000);
+    }
+
+    // --------------------------------------------------------
+    // 5. وظيفة تسجيل الدخول (Login Logic)
+    // --------------------------------------------------------
+    document.getElementById('login-submit').onclick = () => {
+        const phone = document.getElementById('login-phone').value.trim();
+        const password = document.getElementById('login-password').value;
+        const messageDiv = document.getElementById('login-message');
+        
+        messageDiv.style.color = 'var(--game-box-color)';
+        messageDiv.textContent = ''; 
+        
+        if (!phone || !password) {
+            messageDiv.textContent = 'الرجاء إدخال رقم الهاتف وكلمة السر.';
+            return;
+        }
+
+        const storedUserData = localStorage.getItem(phone);
+
+        if (!storedUserData) {
+            messageDiv.textContent = '❌ خطا: رقم الهاتف غير مسجل.';
+            return;
+        }
+
+        const user = JSON.parse(storedUserData);
+
+        if (user.password === password) {
+            messageDiv.style.color = 'green';
+            messageDiv.textContent = `✅ مرحبا بك ${user.name}! تم تسجيل الدخول بنجاح.`;
+            
+            setTimeout(() => {
+                loginModal.style.display = "none";
+            }, 3000);
+            
+        } else {
+            messageDiv.textContent = '❌ خطا: كلمة السر غير صحيحة.';
+        }
+    }
 </script>
 </body>
 </html>
