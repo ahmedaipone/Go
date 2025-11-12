@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* ----- شاشة التحميل (Splash Screen) - تم التعديل هنا ----- */
+        /* ----- شاشة التحميل (Splash Screen) ----- */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -39,9 +39,9 @@
             z-index: 1000;
             transition: opacity 1s ease-out;
             text-align: center;
-            /* **الخلفية المتحركة تملأ الشاشة** */
-            background-image: url('https://media.tenor.com/rV09EcbHvycAAAAM/money-rich.gif'); /* دولارات متساقطة */
-            background-size: cover; /* لضمان ملء الشاشة */
+            /* الخلفية المتحركة (فلوس متساقطة) */
+            background-image: url('https://media.tenor.com/rV09EcbHvycAAAAM/money-rich.gif');
+            background-size: cover;
             background-position: center;
         }
 
@@ -57,12 +57,11 @@
             aspect-ratio: 16/9;
             object-fit: contain;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); /* ظل أوضح لتظهر فوق الخلفية */
-            z-index: 1001; /* للتأكيد أنها فوق الخلفية */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            z-index: 1001; 
         }
-        
-        /* ----- باقي الـ CSS لم يتغير ----- */
 
+        /* ----- الواجهة الرئيسية (بعد التحميل) ----- */
         #main-content {
             opacity: 0;
             visibility: hidden;
@@ -74,6 +73,7 @@
             visibility: visible;
         }
 
+        /* ----- شريط الرأس (Header) وباقي الأقسام ----- */
         .header {
             background-color: var(--header-bg-color);
             color: var(--white-text);
@@ -139,6 +139,14 @@
             gap: 15px;
             padding-bottom: 80px;
         }
+        
+        /* وسم الرابط لتفعيل النقر على الخانة بأكملها */
+        .game-link {
+            text-decoration: none; 
+            color: inherit; 
+            display: block; 
+            cursor: pointer;
+        }
 
         .game-box {
             background-color: var(--game-box-color);
@@ -146,7 +154,6 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
             padding: 5px;
-            cursor: pointer;
             transition: transform 0.2s ease;
             overflow: hidden;
         }
@@ -167,9 +174,14 @@
             font-size: 16px;
             background-color: var(--game-box-color);
             border: 2px solid var(--white-text);
-            background-image: url('https://i.imgur.com/W2h0e3c.png');
             background-size: cover;
             background-position: center;
+        }
+        
+        /* تخصيص صورة الخانة رقم 1 (Thimbles) */
+        .game-image[data-game-name="thimbles"] {
+            /* صورة تليق بلعبة الأكواب أو الكروت */
+            background-image: url('https://i.imgur.com/vH1N72s.png'); 
         }
 
         .game-index {
@@ -268,23 +280,51 @@
     </div>
 
 <script>
+    // الرابط الحقيقي الذي طلب ربطه بالخانة رقم 1
+    const THIMBLES_URL = 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=demo&deviceType=2&lang=EN&operatorID=642CC14E&mainDomain=https://eg-1xbet.com/slots';
+
     // --------------------------------------------------------
     // 1. توليد 100 خانة لعبة (Games Grid Generation)
     // --------------------------------------------------------
     function generateGamesGrid() {
         const gridContainer = document.querySelector('.games-grid');
         let htmlContent = '';
+        
+        // قائمة الألعاب وأنماطها الوهمية لباقي الـ 99 خانة
+        const gameTemplates = [
+            'lucky-mines', 'crash-game', 'dice-roll', 'plinko', 'hilo', 
+            'roulette', 'slots', 'blackjack', 'jackpot', 'keno'
+        ];
 
         for (let i = 1; i <= 100; i++) {
+            let gameLink;
+            let gameName;
+
+            if (i === 1) {
+                // **تخصيص الخانة رقم 1 (Thimbles) بالرابط الحقيقي**
+                gameName = 'thimbles';
+                gameLink = THIMBLES_URL; 
+            } else {
+                // **باقي الخانات (روابط خام/وهمية)**
+                const baseGameName = gameTemplates[(i - 2) % gameTemplates.length];
+                gameName = `${baseGameName}-${i}`; 
+                // الرابط الخام لباقي الألعاب (للتعديل لاحقاً)
+                gameLink = `https://${baseGameName}.inout.games/api/modes/game?gameMode=${gameName}&operatorId=[OPERATOR_ID]&authToken=[AUTH_TOKEN]&currency=USD&lang=ar&lobbyUrl=`;
+                gameName = baseGameName; // استخدم الاسم الأساسي للعرض
+            }
+            
+            // وسم الرابط <a> حول الخانة
             htmlContent += `
-                <div class="game-box" data-game-id="${i}">
-                    <div class="game-image">
-                        صورة اللعبة
+                <a href="${gameLink}" target="_blank" class="game-link">
+                    <div class="game-box" data-game-id="${i}">
+                        <div class="game-image" data-game-name="${gameName}">
+                            ${(i === 1) ? 'THIMBLES' : gameName.toUpperCase().replace('-', ' ')}
+                        </div>
+                        <div class="game-index">
+                            خانة رقم: ${i} 
+                        </div>
                     </div>
-                    <div class="game-index">
-                        خانة رقم: ${i}
-                    </div>
-                </div>
+                </a>
             `;
         }
 
@@ -297,7 +337,7 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         const splashScreen = document.getElementById('splash-screen');
         const mainContent = document.getElementById('main-content');
-        const DURATION = 10000; // 10 ثواني
+        const DURATION = 10000; 
 
         generateGamesGrid();
 
@@ -312,22 +352,15 @@
     });
 
     // --------------------------------------------------------
-    // 3. (مرحلة لاحقة) كود الروابط
+    // 3. (مرحلة لاحقة) كود الأزرار
     // --------------------------------------------------------
     
     document.getElementById('login-btn').addEventListener('click', function() {
-        // سيتم وضع الرابط لصفحة تسجيل الدخول هنا لاحقاً
         console.log('تم الضغط على تسجيل الدخول');
+        // هنا سيتم توجيهك لصفحة تسجيل الدخول
     });
 
-    document.querySelector('.games-grid').addEventListener('click', function(e) {
-        const gameBox = e.target.closest('.game-box');
-        if (gameBox) {
-            const gameId = gameBox.getAttribute('data-game-id');
-            // هنا سيتم وضع الكود الذي ينقلك إلى رابط معين بناءً على رقم الخانة
-            console.log(`تم الضغط على خانة رقم: ${gameId}`);
-        }
-    });
+    // تم إزالة مستمع الأحداث الخاص بـ .games-grid لأنه تم تغييره إلى وسم <a> في HTML
 </script>
 </body>
 </html>
