@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DiscoBet - مرحباً بك في عالم الترفيه</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
     <style>
         /* الخطوط والألوان الأساسية */
         :root {
@@ -13,6 +14,9 @@
             --game-box-color: #FF6347; /* أحمر للخانات */
             --text-color: #333;
             --white-text: #FFF;
+            --dark-modal-bg: #1a1a2e; /* خلفية داكنة جذابة للمودال */
+            --card-color: #38385d; /* لون بطاقة مميز */
+            --accent-color: #FFD700; /* لون ذهبي للتركيز */
         }
 
         body {
@@ -62,10 +66,10 @@
         }
 
         /* ------------------------------------------- */
-        /* ----- النوافذ المنبثقة (Modals) ----- */
+        /* ----- النوافذ المنبثقة العامة (Modals) ----- */
         /* ------------------------------------------- */
         .modal {
-            display: none; /* مخفي افتراضياً */
+            display: none; 
             position: fixed;
             z-index: 2000; 
             left: 0;
@@ -73,8 +77,8 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.6); /* خلفية سوداء شفافة */
-            padding-top: 60px;
+            background-color: rgba(0, 0, 0, 0.85); /* خلفية أشد قتامة */
+            padding-top: 20px;
         }
 
         .modal-content {
@@ -89,6 +93,23 @@
             animation-name: animatetop;
             animation-duration: 0.4s
         }
+
+        /* تنسيق خاص لمودال الإيداع والسحب ليكون "فاجرًا" */
+        #deposit-modal .modal-content,
+        #withdraw-modal .modal-content {
+            max-width: 600px;
+            background-color: var(--dark-modal-bg); /* خلفية داكنة */
+            color: var(--white-text);
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        #deposit-modal h3, #withdraw-modal h3 {
+            color: var(--accent-color);
+            font-size: 24px;
+            border-bottom: 2px solid var(--card-color);
+            padding-bottom: 10px;
+        }
         
         @keyframes animatetop {
             from {top: -300px; opacity: 0}
@@ -96,7 +117,7 @@
         }
 
         .close-btn {
-            color: var(--header-bg-color);
+            color: var(--accent-color);
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -108,52 +129,55 @@
             text-decoration: none;
             cursor: pointer;
         }
-        
-        .modal-content h3 {
-            color: var(--header-bg-color);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .modal-content input[type="text"],
-        .modal-content input[type="password"] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid var(--header-bg-color);
-            box-sizing: border-box;
-            border-radius: 8px;
-            background-color: var(--white-text);
-        }
-
-        .modal-content button {
-            background-color: var(--game-box-color);
-            color: var(--white-text);
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            transition: background-color 0.3s;
-        }
-
-        .modal-content button:hover {
-            background-color: #CD5C5C;
-        }
-        
-        #register-message, #login-message {
-            color: var(--game-box-color);
-            text-align: center;
-            margin-top: 10px;
-            font-weight: 700;
-        }
 
         /* ------------------------------------------- */
-        /* ----- باقي الـ CSS (الواجهة الرئيسية) ----- */
+        /* ----- تنسيق بطاقات طرق الدفع (Payment Cards) ----- */
+        /* ------------------------------------------- */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .payment-card {
+            background-color: var(--card-color);
+            color: var(--white-text);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid transparent;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6), 0 0 10px var(--accent-color);
+            border: 1px solid var(--accent-color);
+        }
+
+        .payment-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            border: 2px solid var(--white-text);
+        }
+        
+        .payment-card .card-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--accent-color);
+            margin-top: 5px;
+        }
+        
+        /* ------------------------------------------- */
+        /* ----- بقية التنسيقات (لم تتغير) ----- */
         /* ------------------------------------------- */
         
         #main-content {
@@ -187,7 +211,6 @@
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        /* حاوية أزرار التسجيل/اسم المستخدم */
         .header .auth-buttons {
             display: flex;
             gap: 10px;
@@ -209,7 +232,6 @@
             background-color: #8FD89A;
         }
         
-        /* تنسيق اسم المستخدم عند تسجيل الدخول */
         #user-greeting {
             color: var(--main-bg-color);
             font-size: 16px;
@@ -229,7 +251,6 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
         
-        /* تنسيق أزرار الإيداع والسحب في شريط المعلومات */
         .info-bar .action-buttons button {
             background-color: var(--game-box-color);
             color: var(--white-text);
@@ -296,27 +317,22 @@
             background-position: center;
         }
         
-        /* تخصيص صورة الخانة رقم 1 (Thimbles) */
         .game-image[data-game-name="thimbles"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFWVyhpDjT15JRgjnVPUVYEuR1-71eejGsYzIc7D1jdQIRQQESfz0H9a4&s=10'); 
         }
 
-        /* تخصيص صورة الخانة رقم 2 (Goldmines) */
         .game-image[data-game-name="goldmines"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsxp9mqj0odKbPwVV9P11nyd3v1W1SHTb4zkauujtpmg&s=10'); 
         }
         
-        /* تخصيص صورة الخانة رقم 3 (Rock, paper, scissors) */
         .game-image[data-game-name="rock-paper-scissors"] {
             background-image: url('https://i.ytimg.com/vi/e4Bqv3KPBRI/maxresdefault.jpg');
         }
         
-        /* تخصيص صورة الخانة رقم 4 (Toon crash) */
         .game-image[data-game-name="toon-crash"] {
             background-image: url('https://publiccdn.kingmidasgames.net/500x500images/KingMidas/toon-crash_500x500_en.jpg');
         }
         
-        /* تخصيص صورة الخانة رقم 5 (Goal Mine) */
         .game-image[data-game-name="goal-mine"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjzyV2jhmIKk3RLfOGsYNDPHhsE_GHEbdyFoO3yCeZOg&s=10');
         }
@@ -442,6 +458,83 @@
             <div id="login-message"></div>
         </div>
     </div>
+    
+    <div id="deposit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-modal="deposit-modal">&times;</span>
+            <h3><i class="fas fa-hand-holding-usd"></i> إيداع الأموال (اختر طريقة)</h3>
+            <div class="payment-grid">
+                <div class="payment-card" data-method="vodafone-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3y5FvbOMj5MqePDjeX1AtO0kD9blXITMZsMIDganF-A&s=10" alt="Vodafone Cash">
+                    <div class="card-name">فودافون كاش</div>
+                </div>
+                <div class="payment-card" data-method="orange-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6239yzMz8MSC7w3TzGsKINw5QTWiaszMh5X-1cQPP0w&s=10" alt="Orange Cash">
+                    <div class="card-name">اورنج كاش</div>
+                </div>
+                <div class="payment-card" data-method="et-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9J022bsWFlQlCKPUdNtJ-Ugl3OIGQlUOsF2BJYfmp7g&s=10" alt="Etisalat Cash">
+                    <div class="card-name">E& cash</div>
+                </div>
+                <div class="payment-card" data-method="we-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkG28lxdNftNeDthq5DVB09tiGZJxk4AVuW3RdvqOUFg&s=10" alt="We Cash">
+                    <div class="card-name">وي كاش</div>
+                </div>
+                <div class="payment-card" data-method="paypal">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLBYxJfavbEj9acIbz6iR0kqj7xqnyTfZE6A2PBmAb0A&s=10" alt="PayPal">
+                    <div class="card-name">PayPal</div>
+                </div>
+                <div class="payment-card" data-method="bitcoin">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnEYWz54aMoJXPBI5CKN3vA2MQqzXrR75uZo1iAG59KA&s=10" alt="Bitcoin">
+                    <div class="card-name">بيتكوين</div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px; font-size: 14px; color: #8a8aab;">
+                <p>⚠️ الرجاء النقر على إحدى البطاقات أعلاه للمتابعة.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="withdraw-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" data-modal="withdraw-modal">&times;</span>
+            <h3><i class="fas fa-money-bill-transfer"></i> سحب الأرباح</h3>
+            <div class="payment-grid">
+                <div class="payment-card" data-method="vodafone-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3y5FvbOMj5MqePDjeX1AtO0kD9blXITMZsMIDganF-A&s=10" alt="Vodafone Cash">
+                    <div class="card-name">فودافون كاش</div>
+                </div>
+                <div class="payment-card" data-method="orange-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6239yzMz8MSC7w3TzGsKINw5QTWiaszMh5X-1cQPP0w&s=10" alt="Orange Cash">
+                    <div class="card-name">اورنج كاش</div>
+                </div>
+                <div class="payment-card" data-method="et-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9J022bsWFlQlCKPUdNtJ-Ugl3OIGQlUOsF2BJYfmp7g&s=10" alt="Etisalat Cash">
+                    <div class="card-name">E& cash</div>
+                </div>
+                <div class="payment-card" data-method="we-cash">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkG28lxdNftNeDthq5DVB09tiGZJxk4AVuW3RdvqOUFg&s=10" alt="We Cash">
+                    <div class="card-name">وي كاش</div>
+                </div>
+                <div class="payment-card" data-method="paypal">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLBYxJfavbEj9acIbz6iR0kqj7xqnyTfZE6A2PBmAb0A&s=10" alt="PayPal">
+                    <div class="card-name">PayPal</div>
+                </div>
+                <div class="payment-card" data-method="bitcoin">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnEYWz54aMoJXPBI5CKN3vA2MQqzXrR75uZo1iAG59KA&s=10" alt="Bitcoin">
+                    <div class="card-name">بيتكوين</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px;">
+                <input type="text" id="withdraw-amount" placeholder="أدخل المبلغ المراد سحبه (بالجنيه)" 
+                       style="width: calc(100% - 40px); padding: 10px; border-radius: 8px; border: 1px solid var(--accent-color); background-color: #2b2b40; color: var(--white-text); margin-bottom: 15px;">
+                <button style="background-color: var(--accent-color); color: var(--dark-modal-bg); font-weight: 700;">
+                    تأكيد طلب السحب
+                </button>
+            </div>
+        </div>
+    </div>
 
 
 <script>
@@ -550,6 +643,19 @@
                 splashScreen.style.display = 'none';
             }, 1000);
         }, DURATION);
+        
+        // ربط أزرار الإيداع والسحب لفتح النوافذ
+        const depositBtn = document.getElementById('deposit-btn');
+        const withdrawBtn = document.getElementById('withdraw-btn');
+        const depositModal = document.getElementById('deposit-modal');
+        const withdrawModal = document.getElementById('withdraw-modal');
+
+        if (depositBtn) {
+            depositBtn.onclick = () => { depositModal.style.display = "block"; }
+        }
+        if (withdrawBtn) {
+            withdrawBtn.onclick = () => { withdrawModal.style.display = "block"; }
+        }
     });
 
     // --------------------------------------------------------
@@ -579,7 +685,7 @@
     const signupBtn = document.getElementById('signup-btn');
     const closeBtns = document.querySelectorAll('.close-btn');
 
-    // فتح النوافذ
+    // فتح نوافذ التسجيل/الدخول
     loginBtn.onclick = () => { loginModal.style.display = "block"; }
     signupBtn.onclick = () => { signupModal.style.display = "block"; }
 
@@ -594,13 +700,14 @@
 
     // إغلاق النوافذ عند الضغط خارجها
     window.onclick = (event) => {
-        if (event.target == loginModal) {
-            loginModal.style.display = "none";
-            document.getElementById('login-message').textContent = '';
-        }
-        if (event.target == signupModal) {
-            signupModal.style.display = "none";
-            document.getElementById('register-message').textContent = '';
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = "none";
+            // مسح رسائل الخطأ/النجاح عند الإغلاق
+            if (event.target.id === 'signup-modal') {
+                document.getElementById('register-message').textContent = '';
+            } else if (event.target.id === 'login-modal') {
+                document.getElementById('login-message').textContent = '';
+            }
         }
     }
 
