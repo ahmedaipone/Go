@@ -296,13 +296,31 @@
             background-position: center;
         }
         
+        /* تخصيص صورة الخانة رقم 1 (Thimbles) */
         .game-image[data-game-name="thimbles"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFWVyhpDjT15JRgjnVPUVYEuR1-71eejGsYzIc7D1jdQIRQQESfz0H9a4&s=10'); 
         }
 
+        /* تخصيص صورة الخانة رقم 2 (Goldmines) */
         .game-image[data-game-name="goldmines"] {
             background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsxp9mqj0odKbPwVV9P11nyd3v1W1SHTb4zkauujtpmg&s=10'); 
         }
+        
+        /* تخصيص صورة الخانة رقم 3 (Rock, paper, scissors) */
+        .game-image[data-game-name="rock-paper-scissors"] {
+            background-image: url('https://i.ytimg.com/vi/e4Bqv3KPBRI/maxresdefault.jpg');
+        }
+        
+        /* تخصيص صورة الخانة رقم 4 (Toon crash) */
+        .game-image[data-game-name="toon-crash"] {
+            background-image: url('https://publiccdn.kingmidasgames.net/500x500images/KingMidas/toon-crash_500x500_en.jpg');
+        }
+        
+        /* تخصيص صورة الخانة رقم 5 (Goal Mine) */
+        .game-image[data-game-name="goal-mine"] {
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjzyV2jhmIKk3RLfOGsYNDPHhsE_GHEbdyFoO3yCeZOg&s=10');
+        }
+
 
         .game-index {
             background-color: var(--header-bg-color);
@@ -347,7 +365,7 @@
         }
     </style>
 </head>
-<body> <div id="splash-screen">
+<body><div id="splash-screen">
         <img id="money-animation" src="https://i.pinimg.com/originals/3f/6d/cd/3f6dcddac3531046c36ac85d35420f7d.gif" alt="ماكينة عد النقود والدولارات">
         <h2 style="color: var(--white-text); z-index: 1001;">جارٍ تجهيز عالم DiscoBet...</h2>
     </div>
@@ -430,8 +448,39 @@
     // --------------------------------------------------------
     // الروابط الحقيقية المخصصة
     // --------------------------------------------------------
-    const THIMBLES_URL = 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=demo&deviceType=2&lang=EN&operatorID=642CC14E&mainDomain=https://eg-1xbet.com/slots';
-    const GOLDMINES_URL = 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR&backUrl=https://eg-1xbet.com/slots';
+    const GAMES_CONFIG = [
+        { 
+            id: 1, 
+            name: 'thimbles', 
+            displayName: 'THIMBLES', 
+            url: 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=demo&deviceType=2&lang=EN&operatorID=642CC14E&mainDomain=https://eg-1xbet.com/slots'
+        },
+        { 
+            id: 2, 
+            name: 'goldmines', 
+            displayName: 'GOLDMINES', 
+            url: 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR&backUrl=https://eg-1xbet.com/slots'
+        },
+        { 
+            id: 3, 
+            name: 'rock-paper-scissors', 
+            displayName: 'ROCK, PAPER, SCISSORS', 
+            url: 'https://assets.prod.bet-b2b.topspingames.net/games/topspin/stone-paper-scissor/index.html?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uIjp7InBsYXllcklkIjoiODUwMTY0NDMiLCJnYW1lSWQiOiJ0cy10Zy1zdG9uZXBhcGVyc2Npc3NvciIsImlzUGxheUZvckZ1biI6dHJ1ZSwiY3VycmVuY3kiOiJVU0QiLCJmb3JjZUNvbmZpZyI6IiIsImlwQWRkcmVzcyI6IjE3Mi4zMS4xMzcuMjE3Iiwic3ViUGFydG5lcklEIjoiMXhiZXQiLCJjYWxsQmFja1VSTCI6IiJ9fQ.NXRpM1Cw48shkaxpzmmNldCpZy53BY3QSENZx7QB9lc&cheats=false&currency=USD&deposit_url=&language=ar&lobby_url=&play_mode=f&subPartnerID=1xbet' 
+        },
+        { 
+            id: 4, 
+            name: 'toon-crash', 
+            displayName: 'TOON CRASH', 
+            url: 'https://cdn.kingmidasdev.net/games/demo8/toon-crash/2025-10-14-01-28-54/index.html?currency=USD&lang=en&test=1' 
+        },
+        { 
+            id: 5, 
+            name: 'goal-mine', 
+            displayName: 'GOAL MINE', 
+            url: 'https://cdn.esagames-milan.egamingc.com/goalmine/?token=PLAYFORFUN&lang=ar&currency=PFF&partner=1xbet&partner_id=57&skinid=10&demo_skinid=171966474' 
+        }
+        // يمكن إضافة المزيد من الألعاب هنا
+    ];
 
     // --------------------------------------------------------
     // 1. توليد 100 خانة لعبة (Games Grid Generation)
@@ -446,21 +495,20 @@
         ];
 
         for (let i = 1; i <= 100; i++) {
+            let gameConfig = GAMES_CONFIG.find(game => game.id === i);
             let gameLink;
             let gameName;
             let gameDisplayName; 
 
-            if (i === 1) {
-                gameName = 'thimbles';
-                gameLink = THIMBLES_URL; 
-                gameDisplayName = 'THIMBLES';
-            } else if (i === 2) {
-                gameName = 'goldmines';
-                gameLink = GOLDMINES_URL;
-                gameDisplayName = 'GOLDMINES';
+            if (gameConfig) {
+                // للألعاب المخصصة (1-5)
+                gameLink = gameConfig.url;
+                gameName = gameConfig.name;
+                gameDisplayName = gameConfig.displayName;
             } 
             else {
-                const baseGameName = gameTemplates[(i - 3) % gameTemplates.length];
+                // لباقي الخانات (وهمية)
+                const baseGameName = gameTemplates[(i - GAMES_CONFIG.length - 1) % gameTemplates.length];
                 gameName = `${baseGameName}-${i}`; 
                 gameLink = `https://${baseGameName}.inout.games/api/modes/game?gameMode=${gameName}&operatorId=[OPERATOR_ID]&authToken=[AUTH_TOKEN]&currency=USD&lang=ar&lobbyUrl=`;
                 gameName = baseGameName;
@@ -471,7 +519,7 @@
                 <a href="${gameLink}" target="_blank" class="game-link">
                     <div class="game-box" data-game-id="${i}">
                         <div class="game-image" data-game-name="${gameName}">
-                            ${(i === 1 || i === 2) ? gameDisplayName : gameName.toUpperCase().replace('-', ' ')}
+                            ${gameDisplayName}
                         </div>
                         <div class="game-index">
                             ${gameDisplayName}
@@ -649,7 +697,7 @@
             messageDiv.style.color = 'green';
             messageDiv.textContent = `✅ مرحبا بك ${user.name}! تم تسجيل الدخول بنجاح.`;
             
-            // **تنفيذ التحديثات المطلوبة بعد نجاح الدخول**
+            // تنفيذ التحديثات المطلوبة بعد نجاح الدخول
             updateUIForLoggedInUser(user.name); 
 
             setTimeout(() => {
