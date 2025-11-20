@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
     <style>
         /* ------------------------------------------- */
-        /* ----- الألوان والخطوط الأساسية (كما أرسلتها) ----- */
+        /* ----- الألوان والخطوط الأساسية ----- */
         /* ------------------------------------------- */
         :root {
             --main-bg-color: #A7F0B4; /* أخضر فاتح للمبرمجين */
@@ -93,8 +93,7 @@
             border: 1px solid var(--accent-color);
         }
         .payment-card img {
-            /* تم تعديل حجم الصورة ليكون متناسق */
-            width: 60px; height: 60px; object-fit: contain; border-radius: 50%;
+            width: 80px; height: 80px; object-fit: contain; border-radius: 50%;
             margin-bottom: 10px; border: 2px solid var(--white-text);
         }
         .payment-card .card-name { font-weight: 700; font-size: 14px; color: var(--accent-color); margin-top: 5px; }
@@ -131,16 +130,15 @@
         .games-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; padding-bottom: 80px; }
         
-        .game-link-wrapper { /* العنصر الجديد لتغليف البطاقة ومنطق التفاعل */
+        .game-link-wrapper { 
              position: relative; display: block; cursor: pointer; text-decoration: none;
         }
         .game-box {
-            background-color: var(--card-color); /* تم تغيير لون الخلفية ليكون جذاب */
+            background-color: var(--card-color); 
             border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             text-align: center; padding: 0; transition: transform 0.2s ease, box-shadow 0.2s ease;
-            overflow: hidden; border: 2px solid transparent; /* إضافة حدود لتحديد الألعاب الـ 8 */
+            overflow: hidden; border: 2px solid transparent; 
         }
-        /* تمييز الألعاب الـ 8 الأولى */
         .game-link-wrapper[data-game-id]:nth-child(-n + 8) .game-box {
              border: 2px solid var(--accent-color);
         }
@@ -171,7 +169,7 @@
             font-weight: 700; font-size: 15px; cursor: pointer;
             opacity: 0; transition: opacity 0.3s ease, transform 0.3s ease;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.7); pointer-events: none; 
-            z-index: 50; /* تأكد من أنه فوق الصورة */
+            z-index: 50; 
         }
         .game-link-wrapper.active-overlay .overlay-btn {
             opacity: 1; pointer-events: auto; 
@@ -197,7 +195,7 @@
         }
     </style>
 </head>
-<body> <div id="splash-screen">
+<body><div id="splash-screen">
         <img id="money-animation" src="https://i.pinimg.com/originals/3f/6d/cd/3f6dcddac3531046c36ac85d35420f7d.gif" alt="ماكينة عد النقود والدولارات">
         <h2 style="color: var(--white-text); z-index: 1001;">جارٍ تجهيز عالم DiscoBet...</h2>
     </div>
@@ -336,11 +334,10 @@
                 </button>
             </div>
         </div>
-    </div> <script>
+    </div><script>
     // --------------------------------------------------------
     // الروابط الحقيقية المخصصة وصور الألعاب (GAMES_CONFIG)
     // --------------------------------------------------------
-    // ** تم إضافة حقل imageUrl فقط لحل مشكلة الصور، وباقي الروابط (url, id, name) كما أرسلتها **
     const GAMES_CONFIG = [
         { 
             id: 1, 
@@ -408,7 +405,7 @@
         'Keno Extreme', 'Bingo Blitz', 'Baccarat Live', 'Sic Bo Fun', 'Andar Bahar',
         'Astro Mania', 'Wild West Gold', 'Fire Joker', 'Mega Moolah', 'Dragon Tiger'
     ];
-    // ** تم تحديث هذه الروابط لضمان ظهور صور بديلة واضحة **
+    // ** هذه المصفوفة مفقودة في الكود الأصلي الذي أرسلته، وتم إضافتها لتكملة الكود الذي قمت بتحليله سابقاً **
     const FAKE_IMAGES = [
         'https://i.ibb.co/L8Gj1Ff/fake-slot-1.jpg', 'https://i.ibb.co/2g3xJ17/fake-slot-2.jpg', 'https://i.ibb.co/x7QvY1f/fake-slot-3.jpg',
         'https://i.ibb.co/Wz91p0B/fake-slot-4.jpg', 'https://i.ibb.co/264p6X4/fake-slot-5.jpg', 'https://i.ibb.co/195b0t0/fake-slot-6.jpg',
@@ -434,10 +431,10 @@
         for (let i = 1; i <= 100; i++) {
             let gameData = GAMES_CONFIG.find(game => game.id === i);
             let gameDisplayName;
-            let imageUrl; // متغير جديد لحفظ رابط الصورة
+            let imageUrl; 
 
-            let gameLink; // من الكود الأصلي
-            let gameName; // من الكود الأصلي
+            let gameLink; 
+            let gameName; 
             let isRealGame = !!gameData;
             
             if (isRealGame) {
@@ -445,7 +442,7 @@
                 gameLink = gameData.url;
                 gameName = gameData.name;
                 gameDisplayName = gameData.displayName;
-                imageUrl = gameData.imageUrl; // استخدام الصورة الجديدة
+                imageUrl = gameData.imageUrl; 
             } 
             else {
                 // لباقي الخانات (وهمية) تبدأ بعد آخر لعبة مخصصة
@@ -457,8 +454,8 @@
                 gameName = `${baseGameName}-${i}`; 
                 gameLink = `https://${baseGameName}.inout.games/api/modes/game?gameMode=${gameName}&operatorId=[OPERATOR_ID]&authToken=[AUTH_TOKEN]&currency=USD&lang=ar&lobbyUrl=`;
                 gameName = baseGameName;
-                gameDisplayName = `خانة رقم: ${i} (${FAKE_GAME_NAMES[templateIndex]})`; // استخدام اسم وهمي + رقم
-                imageUrl = FAKE_IMAGES[imageIndex]; // استخدام صورة وهمية جديدة
+                gameDisplayName = `خانة رقم: ${i} (${FAKE_GAME_NAMES[templateIndex]})`; 
+                imageUrl = FAKE_IMAGES[imageIndex]; 
             }
             
             htmlContent += `
@@ -550,7 +547,7 @@
     function handleOverlayClick(event) {
         const overlayBtn = event.currentTarget;
         const wrapper = overlayBtn.closest('.game-link-wrapper');
-        const demoLink = wrapper.dataset.demoUrl; // استخدام الرابط الأصلي الذي أرسلته (الذي تم تخزينه في data-demo-url)
+        const demoLink = wrapper.dataset.demoUrl; 
         
         // فتح الرابط التجريبي
         window.open(demoLink, '_blank');
@@ -560,7 +557,7 @@
         wrapper.classList.remove('active-overlay');
         wrapper.dataset.overlayActive = 'false';
         
-        event.stopPropagation(); // منع انتقال النقر إلى الـ Wrapper (handleGameClick)
+        event.stopPropagation(); 
     }
 
     function updateUIForLoggedInUser(userName, balance = 100.00) {
@@ -587,13 +584,13 @@
     }
     
     // --------------------------------------------------------
-    // 3. إدارة التحميل والـ Modals ومنطق الدخول/التسجيل (بالضبط كما أرسلته)
+    // 3. إدارة التحميل والـ Modals ومنطق الدخول/التسجيل 
     // --------------------------------------------------------
     
     document.addEventListener('DOMContentLoaded', (event) => {
         const splashScreen = document.getElementById('splash-screen');
         const mainContent = document.getElementById('main-content');
-        const DURATION = 3000; // تم تخفيض المدة لـ 3 ثوانٍ
+        const DURATION = 3000; 
 
         generateGamesGrid();
         
