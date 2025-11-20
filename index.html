@@ -7,15 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
     <style>
-        /* الخطوط والألوان الأساسية */
+        /* ------------------------------------------- */
+        /* ----- الألوان والخطوط الأساسية ----- */
+        /* ------------------------------------------- */
         :root {
-            --main-bg-color: #f0f0f0; /* خلفية فاتحة جذابة */
-            --header-bg-color: #38385d; /* بنفسجي غامق جذاب للشعار والأزرار */
-            --game-box-color: #FF0077; /* وردي قوي للخانات */
-            --text-color: #333;
-            --white-text: #FFF;
-            --dark-modal-bg: #1a1a2e; /* خلفية داكنة جذابة للمودال */
-            --card-color: #4a4a75; /* لون بطاقة مميز */
+            --main-bg-color: #1a1a2e; /* خلفية داكنة (ليلي) */
+            --header-bg-color: #0d0d19; /* أغمق من الخلفية (أسود-أزرق) */
+            --game-box-color: #FF0077; /* وردي قوي (للأزرار الرئيسية) */
+            --text-color: #FFF; /* نص أبيض */
+            --card-color: #2b2b40; /* لون بطاقة مميز أغمق قليلاً */
             --accent-color: #FFD700; /* لون ذهبي للتركيز */
         }
 
@@ -45,7 +45,7 @@
             z-index: 1000;
             transition: opacity 1s ease-out;
             text-align: center;
-            background-image: linear-gradient(135deg, #1a1a2e 0%, #38385d 100%);
+            background-image: linear-gradient(135deg, #0d0d19 0%, #1a1a2e 100%);
         }
 
         #splash-screen.hidden {
@@ -70,26 +70,26 @@
         }
 
         .modal-content {
-            background-color: var(--main-bg-color);
+            background-color: var(--card-color);
             margin: 5% auto; 
             padding: 30px;
-            border: 1px solid var(--header-bg-color);
+            border: 1px solid var(--accent-color);
             width: 80%;
             max-width: 400px;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             animation-name: animatetop;
-            animation-duration: 0.4s
+            animation-duration: 0.4s;
+            color: var(--text-color);
         }
         
         /* تنسيق خاص لمودال الإيداع والسحب */
         #deposit-modal .modal-content,
         #withdraw-modal .modal-content {
             max-width: 600px;
-            background-color: var(--dark-modal-bg); 
-            color: var(--white-text);
+            background-color: var(--main-bg-color); 
+            color: var(--text-color);
             border: 2px solid var(--accent-color);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
         }
         
         @keyframes animatetop {
@@ -118,16 +118,17 @@
             padding: 12px 20px;
             margin: 8px 0;
             display: inline-block;
-            border: 1px solid var(--header-bg-color);
+            border: 1px solid var(--accent-color);
             box-sizing: border-box;
             border-radius: 8px;
-            background-color: var(--white-text);
+            background-color: var(--header-bg-color);
+            color: var(--text-color);
         }
 
         /* تنسيق أزرار الدخول/التسجيل */
         .modal-content button {
             background-color: var(--game-box-color);
-            color: var(--white-text);
+            color: var(--text-color);
             padding: 14px 20px;
             margin: 8px 0;
             border: none;
@@ -149,29 +150,11 @@
             margin-top: 10px;
             font-weight: 700;
         }
-        
-        /* رسالة التنبيه العائمة */
-        #floating-alert {
-            position: fixed;
-            bottom: 80px; /* فوق شريط التنقل */
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #FF0077;
-            color: var(--white-text);
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            z-index: 1500;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            font-weight: bold;
-            display: none;
-        }
     </style>
 </head>
 <body> <style>
         /* ------------------------------------------- */
-        /* ----- الواجهة الرئيسية (Main UI) ----- */
+        /* ----- الواجهة الرئيسية وشبكة الألعاب ----- */
         /* ------------------------------------------- */
         
         #main-content {
@@ -187,7 +170,7 @@
 
         .header {
             background-color: var(--header-bg-color);
-            color: var(--white-text);
+            color: var(--text-color);
             padding: 10px 15px;
             display: flex;
             justify-content: space-between;
@@ -195,15 +178,7 @@
             position: sticky;
             top: 0;
             z-index: 500;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .header .logo {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-            color: var(--accent-color);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
         
         #user-greeting {
@@ -215,28 +190,17 @@
 
         .info-bar {
             background-color: var(--card-color);
-            color: var(--white-text);
+            color: var(--text-color);
             padding: 10px 15px;
             margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--accent-color);
         }
         
-        .info-bar .action-buttons button {
-            background-color: var(--game-box-color);
-            color: var(--white-text);
-            border: none;
-            padding: 6px 12px;
-            margin-left: 10px;
-            border-radius: 15px;
-            font-size: 13px;
-            cursor: pointer;
-            font-weight: 700;
-        }
-
         .games-container {
             padding: 20px;
             max-width: 1200px;
@@ -260,21 +224,20 @@
         .game-box {
             background-color: var(--card-color);
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
             text-align: center;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             overflow: hidden;
             border: 2px solid transparent;
         }
         
-        /* تأثير مميز على الألعاب الفعلية (1-8) */
         .game-link-wrapper[data-game-id]:nth-child(-n + 8) .game-box {
              border: 2px solid var(--accent-color);
         }
 
         .game-box:hover {
             transform: scale(1.03);
-            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.7);
         }
 
         .game-image {
@@ -286,23 +249,9 @@
             overflow: hidden;
         }
         
-        /* الصورة الزائفة (Fallback Image) */
-        .game-image.fake {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #6a6a99;
-            color: var(--white-text);
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 10px 10px 0 0;
-            padding: 10px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-        }
-
         .game-name {
             background-color: var(--header-bg-color);
-            color: var(--white-text);
+            color: var(--text-color);
             padding: 8px 5px;
             font-weight: 700;
             font-size: 14px;
@@ -315,11 +264,6 @@
         /* ------------------------------------------- */
         /* ----- تنسيق زر اللعب التجريبي (Overlay) ----- */
         /* ------------------------------------------- */
-        .game-link-wrapper[data-game-id]:nth-child(-n + 8) .game-image {
-            /* إضافة غشاوة عند الحاجة لإظهار الزر */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), var(--image-url, none);
-        }
-
         .game-link-wrapper .overlay-btn {
             position: absolute;
             top: 50%;
@@ -336,26 +280,47 @@
             opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            pointer-events: none; /* لمنع التفاعل قبل النقر */
+            pointer-events: none; 
         }
         
-        .game-link-wrapper:hover .overlay-btn {
+        .game-link-wrapper.active-overlay .overlay-btn {
             opacity: 1;
-            transform: translate(-50%, -50%) scale(1.05);
+            pointer-events: auto; 
         }
-
-
+        
+        .game-link-wrapper.active-overlay {
+            pointer-events: none; /* تعطيل النقر على الـ Wrapper عندما يكون الزر ظاهراً */
+        }
+        
+        /* رسالة التنبيه العائمة */
+        #floating-alert {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--game-box-color); 
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-weight: bold;
+            display: none;
+        }
+        
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             background-color: var(--header-bg-color);
-            color: var(--white-text);
+            color: var(--text-color);
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
             z-index: 900;
         }
 
@@ -374,7 +339,7 @@
     <div id="splash-screen">
         <img id="money-animation" src="https://i.pinimg.com/originals/3f/6d/cd/3f6dcddac3531046c36ac85d35420f7d.gif" alt="ماكينة عد النقود والدولارات" 
              style="width: 80vw; max-width: 500px; aspect-ratio: 16/9; object-fit: contain; border-radius: 15px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.7); z-index: 1001;">
-        <h2 style="color: var(--white-text); z-index: 1001;">جارٍ تجهيز عالم DiscoBet...</h2>
+        <h2 style="color: var(--text-color); z-index: 1001;">جارٍ تجهيز عالم DiscoBet...</h2>
     </div>
 
     <div id="main-content">
@@ -456,10 +421,12 @@
         <div class="modal-content">
             <span class="close-btn" data-modal="deposit-modal">&times;</span>
             <h3><i class="fas fa-hand-holding-usd"></i> إيداع الأموال</h3>
-            <div class="payment-grid">
-                </div>
-            <div style="text-align: center; margin-top: 30px; font-size: 14px; color: #8a8aab;">
-                <p>⚠️ الرجاء النقر على إحدى البطاقات أعلاه للمتابعة.</p>
+            <div class="payment-grid" style="color: var(--text-color); font-size: 16px;">
+                 <p>تتم عملية الإيداع عبر محفظتك الإلكترونية.</p>
+                 <p>يرجى إرسال المبلغ المطلوب إلى رقم الهاتف المُرسل إليك عبر الشات.</p>
+            </div>
+            <div style="text-align: center; margin-top: 30px; font-size: 14px; color: var(--accent-color);">
+                <p>⚠️ بعد الإيداع، يرجى التواصل معنا على الشات لإضافة الرصيد لحسابك.</p>
             </div>
         </div>
     </div>
@@ -470,48 +437,52 @@
             <h3><i class="fas fa-money-bill-transfer"></i> سحب الأرباح</h3>
             <div style="margin-top: 30px;">
                 <input type="text" id="withdraw-amount" placeholder="أدخل المبلغ المراد سحبه (بالجنيه)" 
-                       style="width: calc(100% - 40px); padding: 10px; border-radius: 8px; border: 1px solid var(--accent-color); background-color: #2b2b40; color: var(--white-text); margin-bottom: 15px;">
-                <button style="background-color: var(--accent-color); color: var(--dark-modal-bg); font-weight: 700;">
+                       style="width: calc(100% - 40px); padding: 10px; border-radius: 8px; border: 1px solid var(--accent-color); background-color: var(--header-bg-color); color: var(--text-color); margin-bottom: 15px;">
+                <button style="background-color: var(--accent-color); color: var(--header-bg-color); font-weight: 700;">
                     تأكيد طلب السحب
                 </button>
             </div>
         </div>
     </div> <script>
     // --------------------------------------------------------
-    // الروابط الحقيقية المخصصة وصور الألعاب (GAMES_CONFIG)
+    // الروابط والصور المحدثة (GAMES_CONFIG)
     // --------------------------------------------------------
-    // تم تحديث المصفوفة لـ 100 خانة، مع صور وروابط فعلية للأولى و صور ورسائل وهمية للباقي.
-
+    
     const GAMES_CONFIG = [
-        // الألعاب الفعلية (1-8) - تحتوي على روابط demo و live
-        { id: 1, name: 'thimbles', displayName: 'THIMBLES', demoUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=demo&deviceType=2&lang=EN', liveUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=live&deviceType=2&lang=EN', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFWVyhpDjT15JRgjnVPUVYEuR1-71eejGsYzIc7D1jdQIRQQESfz0H9a4&s=10' },
-        { id: 2, name: 'goldmines', displayName: 'GOLDMINES', demoUrl: 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR&playMode=demo', liveUrl: 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsxp9mqj0odKbPwVV9P11nyd3v1W1SHTb4zkauujtpmg&s=10' },
-        { id: 3, name: 'rock-paper-scissors', displayName: 'ROCK, PAPER, SCISSORS', demoUrl: 'https://assets.prod.bet-b2b.topspingames.net/games/topspin/stone-paper-scissor/index.html?play_mode=f', liveUrl: 'https://assets.prod.bet-b2b.topspingames.net/games/topspin/stone-paper-scissor/index.html?play_mode=r', imageUrl: 'https://i.ytimg.com/vi/e4Bqv3KPBRI/maxresdefault.jpg' },
-        { id: 4, name: 'toon-crash', displayName: 'TOON CRASH', demoUrl: 'https://cdn.kingmidasdev.net/games/demo8/toon-crash/2025-10-14-01-28-54/index.html?test=1', liveUrl: 'https://cdn.kingmidasdev.net/games/demo8/toon-crash/2025-10-14-01-28-54/index.html', imageUrl: 'https://publiccdn.kingmidasgames.net/500x500images/KingMidas/toon-crash_500x500_en.jpg' },
-        { id: 5, name: 'goal-mine', displayName: 'GOAL MINE', demoUrl: 'https://cdn.esagames-milan.egamingc.com/goalmine/?token=PLAYFORFUN&lang=ar', liveUrl: 'https://cdn.esagames-milan.egamingc.com/goalmine/?token=LIVE&lang=ar', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjzyV2jhmIKk3RLfOGsYNDPHhsE_GHEbdyFoO3yCeZOg&s=10' },
-        { id: 6, name: 'balloon-doggo', displayName: 'BALLOON DOGGO', demoUrl: 'https://balloondoggo.turbogg4u.online/?locale=ar&demo=true', liveUrl: 'https://balloondoggo.turbogg4u.online/?locale=ar&demo=false', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ27R3leMbDmvxx6ukELS7bUpUF8-h7VAzU86YnSZ7ZKA&s=10' },
-        { id: 7, name: 'crash', displayName: 'CRASH', demoUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=2014&playMode=demo&deviceType=2&lang=EN', liveUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=2014&playMode=live&deviceType=2&lang=EN', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7GvdmnxoEpjfaVb2wE3-53zM6E-RjWLDrUV3aN8vzCg&s=10' },
-        { id: 8, name: 'coyote-crash', displayName: 'COYOTE CRASH', demoUrl: 'https://app-e.ply-ldr-rfo6v4aqd6cqw84z.com/games/?mode=fun&locale=en', liveUrl: 'https://app-e.ply-ldr-rfo6v4aqd6cqw84z.com/games/?mode=real&locale=en', imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-zlSgC72TP5VwGMixd6SeJtRyOVTttTR9l6Q09kIuQQ&s=10' },
+        // الألعاب الفعلية (1-8) - صور وأسماء احترافية ومختلفة
+        { id: 1, name: 'mines', displayName: 'MINES GOLD', demoUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=demo&deviceType=2&lang=EN', liveUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=32724&playMode=live&deviceType=2&lang=EN', imageUrl: 'https://i.ibb.co/6P26W92/mines-gold.jpg' }, 
+        { id: 2, name: 'crash', displayName: 'SPACE CRASH', demoUrl: 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR&playMode=demo', liveUrl: 'https://cdn.goldmines.elbet.com/?version=mobile&language=ar&companyId=1&currency=EUR', imageUrl: 'https://i.ibb.co/q5L3t3K/Space-Crash.jpg' }, 
+        { id: 3, name: 'thimbles', displayName: 'THIMBLES', demoUrl: 'https://assets.prod.bet-b2b.topspingames.net/games/topspin/stone-paper-scissor/index.html?play_mode=f', liveUrl: 'https://assets.prod.bet-b2b.topspingames.net/games/topspin/stone-paper-scissor/index.html?play_mode=r', imageUrl: 'https://i.ibb.co/1K7Tq9m/Thimbles-Game.jpg' }, 
+        { id: 4, name: 'goldmines', displayName: 'GOAL MINE', demoUrl: 'https://cdn.kingmidasdev.net/games/demo8/toon-crash/2025-10-14-01-28-54/index.html?test=1', liveUrl: 'https://cdn.kingmidasdev.net/games/demo8/toon-crash/2025-10-14-01-28-54/index.html', imageUrl: 'https://i.ibb.co/3sX8B18/Goal-Mine.jpg' }, 
+        { id: 5, name: 'balloon-doggo', displayName: 'BALLOON DOGGO', demoUrl: 'https://cdn.esagames-milan.egamingc.com/goalmine/?token=PLAYFORFUN&lang=ar', liveUrl: 'https://cdn.esagames-milan.egamingc.com/goalmine/?token=LIVE&lang=ar', imageUrl: 'https://i.ibb.co/N1tH3tq/Balloon-Doggo.jpg' }, 
+        { id: 6, name: 'dice', displayName: 'NEON DICE', demoUrl: 'https://balloondoggo.turbogg4u.online/?locale=ar&demo=true', liveUrl: 'https://balloondoggo.turbogg4u.online/?locale=ar&demo=false', imageUrl: 'https://i.ibb.co/nC5R0nK/Neon-Dice.jpg' }, 
+        { id: 7, name: 'plinko', displayName: 'MAGIC PLINKO', demoUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=2014&playMode=demo&deviceType=2&lang=EN', liveUrl: 'https://launchdigi.net/GamesLaunch/Launch?gameId=2014&playMode=live&deviceType=2&lang=EN', imageUrl: 'https://i.ibb.co/b3F3mHh/Magic-Plinko.jpg' }, 
+        { id: 8, name: 'aviator', displayName: 'AVIATOR', demoUrl: 'https://app-e.ply-ldr-rfo6v4aqd6cqw84z.com/games/?mode=fun&locale=en', liveUrl: 'https://app-e.ply-ldr-rfo6v4aqd6cqw84z.com/games/?mode=real&locale=en', imageUrl: 'https://i.ibb.co/j31sL9q/Aviator-Game.jpg' },
     ];
     
-    // أسماء ألعاب وهمية لملء الـ 100 خانة
+    // أسماء وصور وهمية لملء الـ 92 خانة المتبقية
     const FAKE_GAME_NAMES = [
-        'Lucky Roulette', 'Treasure Chest', 'Neon Dice', 'Viking Slots', 'Magic Plinko', 
-        'Space Crash', 'Pirate Gold', 'Pharaoh\'s Secret', 'Crazy Taxi', 'Football Penalty',
-        'Joker Spins', 'Fruit Rush', 'Diamond Quest', 'Cyber Wheel', 'Deep Sea Dive',
-        'Zodiac Riches', 'Desert Fortune', 'Ancient Tiles', 'Monster Hunt', 'Gladiators'
+        'Lucky 7', 'Treasure Quest', 'Cyber Wheel', 'Viking Riches', 'Football Penalty',
+        'Zodiac Slots', 'Deep Sea Dive', 'Fruit Blast', 'Ancient Egypt', 'Crazy Race',
+        'Diamond Hunt', 'Roulette Royale', 'Blackjack Pro', 'Poker Night', 'Ludo Master',
+        'Keno Extreme', 'Bingo Blitz', 'Baccarat Live', 'Sic Bo Fun', 'Andar Bahar',
+        'Astro Mania', 'Candy Crush Slots', 'Wild West Gold', 'Fire Joker', 'Mega Moolah'
     ];
     
-    // صور وهمية لملء الـ 100 خانة (لتبدو وكأنها ألعاب مختلفة)
     const FAKE_IMAGES = [
-        'https://picsum.photos/id/1/200/300', 'https://picsum.photos/id/10/200/300', 'https://picsum.photos/id/20/200/300',
-        'https://picsum.photos/id/30/200/300', 'https://picsum.photos/id/40/200/300', 'https://picsum.photos/id/50/200/300',
-        'https://picsum.photos/id/60/200/300', 'https://picsum.photos/id/70/200/300', 'https://picsum.photos/id/80/200/300',
-        'https://picsum.photos/id/90/200/300', 'https://picsum.photos/id/100/200/300', 'https://picsum.photos/id/110/200/300',
-        'https://picsum.photos/id/120/200/300', 'https://picsum.photos/id/130/200/300', 'https://picsum.photos/id/140/200/300',
-        'https://picsum.photos/id/150/200/300', 'https://picsum.photos/id/160/200/300', 'https://picsum.photos/id/170/200/300',
-        'https://picsum.photos/id/180/200/300', 'https://picsum.photos/id/190/200/300'
+        'https://i.ibb.co/L8Gj1Ff/fake-slot-1.jpg', 'https://i.ibb.co/2g3xJ17/fake-slot-2.jpg', 'https://i.ibb.co/x7QvY1f/fake-slot-3.jpg',
+        'https://i.ibb.co/Wz91p0B/fake-slot-4.jpg', 'https://i.ibb.co/264p6X4/fake-slot-5.jpg', 'https://i.ibb.co/195b0t0/fake-slot-6.jpg',
+        'https://i.ibb.co/N103Q45/fake-slot-7.jpg', 'https://i.ibb.co/Wz074z0/fake-slot-8.jpg', 'https://i.ibb.co/hV75YtL/fake-slot-9.jpg',
+        'https://i.ibb.co/4P269mQ/fake-slot-10.jpg', 'https://i.ibb.co/5cQG914/fake-slot-11.jpg', 'https://i.ibb.co/5x8h4S8/fake-slot-12.jpg',
+        'https://i.ibb.co/k8B0y4N/fake-slot-13.jpg', 'https://i.ibb.co/Q8Rj2b7/fake-slot-14.jpg', 'https://i.ibb.co/8Y5K6z8/fake-slot-15.jpg',
+        'https://i.ibb.co/Qf9T2x4/fake-slot-16.jpg', 'https://i.ibb.co/P4Z5d2h/fake-slot-17.jpg', 'https://i.ibb.co/y4F5m0Z/fake-slot-18.jpg',
+        'https://i.ibb.co/Y5b2F0w/fake-slot-19.jpg', 'https://i.ibb.co/53R9m0T/fake-slot-20.jpg',
+        'https://i.ibb.co/Q0yR1x0/fake-slot-21.jpg', 'https://i.ibb.co/5T9B7sW/fake-slot-22.jpg', 'https://i.ibb.co/V9zL2tN/fake-slot-23.jpg',
+        'https://i.ibb.co/3sX9D5y/fake-slot-24.jpg', 'https://i.ibb.co/0y4mQ2x/fake-slot-25.jpg'
     ];
+    
+    let isLoggedIn = false;
+    let userBalance = 0.00; 
 
     // --------------------------------------------------------
     // 1. توليد 100 خانة لعبة (Games Grid Generation)
@@ -524,44 +495,37 @@
             let gameData = GAMES_CONFIG.find(game => game.id === i);
             let gameDisplayName;
             let imageUrl;
-            let gameClass = '';
-
+            
             if (gameData) {
-                // للألعاب الفعلية (1-8)
                 gameDisplayName = gameData.displayName;
                 imageUrl = gameData.imageUrl;
             } 
             else {
-                // لباقي الخانات (وهمية 9-100)
                 const nameIndex = (i - GAMES_CONFIG.length - 1) % FAKE_GAME_NAMES.length;
                 const imageIndex = (i - GAMES_CONFIG.length - 1) % FAKE_IMAGES.length;
                 
-                gameDisplayName = FAKE_GAME_NAMES[nameIndex] + ` ${i}`; 
+                gameDisplayName = FAKE_GAME_NAMES[nameIndex] + ` - ${i}`; 
                 imageUrl = FAKE_IMAGES[imageIndex];
             }
             
             htmlContent += `
-                <div class="game-link-wrapper" data-game-id="${i}" data-is-real="${!!gameData}">
+                <div class="game-link-wrapper" data-game-id="${i}" data-is-real="${!!gameData}" data-overlay-active="false">
                     <div class="game-box" >
-                        <div class="game-image" style="--image-url: url('${imageUrl}'); background-image: url('${imageUrl}');">
-                            ${i <= 8 ? `<button class="overlay-btn" data-game-action="demo">اللعب تجريبياً</button>` : ''}
+                        <div class="game-image" style="background-image: url('${imageUrl}');">
+                            ${i <= 8 ? `<button class="overlay-btn">اللعب بالوضع التجريبي</button>` : ''}
                         </div>
                         <div class="game-name">${gameDisplayName}</div>
                     </div>
                 </div>
             `;
         }
-
         gridContainer.innerHTML = htmlContent;
     }
 
     // --------------------------------------------------------
     // 2. منطق التفاعل الجديد (Game Interaction Logic)
     // --------------------------------------------------------
-    let isLoggedIn = false;
-    let userBalance = 0.00; // سيتم تحديثه عند تسجيل الدخول
     
-    // دالة لعرض رسالة التنبيه العائمة
     function showFloatingAlert(message, isSuccess = false) {
         const alertDiv = document.getElementById('floating-alert');
         alertDiv.textContent = message;
@@ -573,34 +537,10 @@
             alertDiv.style.opacity = 0;
             setTimeout(() => {
                 alertDiv.style.display = 'none';
-            }, 500); // اختفاء بعد 0.5 ثانية 
+            }, 500); 
         }, 3000); // عرض لمدة 3 ثوانٍ
     }
     
-    // دالة تحديث واجهة المستخدم عند تسجيل الدخول/الرصيد
-    function updateUIForLoggedInUser(userName, balance) {
-        isLoggedIn = !!userName;
-        userBalance = balance;
-        document.getElementById('current-balance').textContent = userBalance.toFixed(2);
-        
-        if (isLoggedIn) {
-            document.getElementById('login-btn').style.display = 'none';
-            document.getElementById('signup-btn').style.display = 'none';
-            
-            const userGreeting = document.getElementById('user-greeting');
-            userGreeting.textContent = `مرحباً، ${userName}`;
-            userGreeting.style.display = 'inline-block';
-            
-            document.getElementById('action-buttons').style.display = 'block';
-        } else {
-            document.getElementById('login-btn').style.display = 'inline-block';
-            document.getElementById('signup-btn').style.display = 'inline-block';
-            document.getElementById('user-greeting').style.display = 'none';
-            document.getElementById('action-buttons').style.display = 'none';
-        }
-    }
-    
-    // معالج النقر على بطاقات الألعاب
     function handleGameClick(event) {
         const wrapper = event.currentTarget;
         const gameId = parseInt(wrapper.dataset.gameId);
@@ -609,52 +549,77 @@
         if (!isRealGame) {
             // للألعاب الوهمية (9-100)
             if (!isLoggedIn) {
-                showFloatingAlert('❌ برجاء تسجيل الدخول أولاً للمتابعة.');
-            } else if (userBalance < 5.00) { // افتراض أن اللعبة تتطلب رصيداً أدنى
-                showFloatingAlert('⚠️ لا يوجد رصيد كافٍ للعب. يرجى الإيداع.');
+                showFloatingAlert('❌ برجاء تسجيل الدخول أولاً للمتابعة.', false);
+            } else if (userBalance < 5.00) { 
+                showFloatingAlert('⚠️ لا يوجد رصيد كافٍ للعب. يرجى الإيداع.', false);
             } else {
                 showFloatingAlert('❌ اللعبة غير متوفرة حالياً. حاول لاحقاً.', false);
             }
             return;
         }
 
-        // للألعاب الفعلية (1-8)
-        const gameData = GAMES_CONFIG.find(g => g.id === gameId);
-        const overlayBtn = wrapper.querySelector('.overlay-btn');
+        // للألعاب الفعلية (1-8): النقر الأول يظهر الزر
+        let isOverlayActive = wrapper.dataset.overlayActive === 'true';
 
-        if (overlayBtn.dataset.gameAction === 'demo') {
-            // الحالة الأولى: أول ضغطة - عرض خيار اللعب الفعلي
-            overlayBtn.textContent = 'اللعب بالنقود الحقيقية';
-            overlayBtn.dataset.gameAction = 'live';
-            showFloatingAlert('اضغط مجدداً للدخول للعب الفعلي!', true);
+        if (!isOverlayActive) {
+            wrapper.classList.add('active-overlay'); 
+            wrapper.dataset.overlayActive = 'true';
             
-            // إضافة زر اللعب التجريبي في الوضع التجريبي فقط
-            const demoLink = gameData.demoUrl;
-            window.open(demoLink, '_blank');
-
-        } else if (overlayBtn.dataset.gameAction === 'live') {
-            // الحالة الثانية: الضغطة الثانية - محاولة الدخول للعب الفعلي
-            if (!isLoggedIn) {
-                showFloatingAlert('❌ برجاء تسجيل الدخول أولاً للمتابعة.');
-            } else if (userBalance < 5.00) {
-                showFloatingAlert('⚠️ لا يوجد رصيد كافٍ للعب. يرجى الإيداع.');
-            } else {
-                const liveLink = gameData.liveUrl;
-                window.open(liveLink, '_blank');
-                showFloatingAlert('🚀 جاري تحميل اللعبة...', true);
-                
-                // إعادة الزر لوضعه الأصلي
-                overlayBtn.textContent = 'اللعب تجريبياً';
-                overlayBtn.dataset.gameAction = 'demo';
-            }
+            showFloatingAlert('اضغط على الزر الأصفر للعب التجريبي!', true); 
+            
+            // إزالة الزر بعد فترة إذا لم يضغط المستخدم
+            setTimeout(() => {
+                if (wrapper.dataset.overlayActive === 'true') {
+                    wrapper.classList.remove('active-overlay');
+                    wrapper.dataset.overlayActive = 'false';
+                }
+            }, 5000); 
         }
+    }
+    
+    // النقر الثاني على الزر الأصفر يفتح رابط الوضع التجريبي
+    function handleOverlayClick(event) {
+        const overlayBtn = event.currentTarget;
+        const wrapper = overlayBtn.closest('.game-link-wrapper');
+        const gameId = parseInt(wrapper.dataset.gameId);
+        const gameData = GAMES_CONFIG.find(g => g.id === gameId);
         
-        event.preventDefault(); // منع أي سلوك افتراضي
+        // فتح الرابط التجريبي
+        const demoLink = gameData.demoUrl;
+        window.open(demoLink, '_blank');
+        showFloatingAlert('🚀 جاري تحميل اللعبة في الوضع التجريبي...', true);
+        
+        // إزالة الزر بعد النقر
+        wrapper.classList.remove('active-overlay');
+        wrapper.dataset.overlayActive = 'false';
+        
+        event.stopPropagation();
+    }
+
+    function updateUIForLoggedInUser(userName, balance) {
+        isLoggedIn = !!userName;
+        userBalance = balance;
+        document.getElementById('current-balance').textContent = userBalance.toFixed(2);
+        
+        if (isLoggedIn) {
+            document.getElementById('login-btn').style.display = 'none';
+            document.getElementById('signup-btn').style.display = 'none';
+            const userGreeting = document.getElementById('user-greeting');
+            userGreeting.textContent = `مرحباً، ${userName}`;
+            userGreeting.style.display = 'inline-block';
+            document.getElementById('action-buttons').style.display = 'block';
+        } else {
+            document.getElementById('login-btn').style.display = 'inline-block';
+            document.getElementById('signup-btn').style.display = 'inline-block';
+            document.getElementById('user-greeting').style.display = 'none';
+            document.getElementById('action-buttons').style.display = 'none';
+        }
     }
 
     // --------------------------------------------------------
-    // 3. إدارة شاشة التحميل والـ Modals
+    // 3. إدارة التحميل والـ Modals ومنطق الدخول/التسجيل
     // --------------------------------------------------------
+    
     document.addEventListener('DOMContentLoaded', (event) => {
         const splashScreen = document.getElementById('splash-screen');
         const mainContent = document.getElementById('main-content');
@@ -662,159 +627,101 @@
 
         generateGamesGrid();
         
-        // ربط معالج النقر بجميع البطاقات
         document.querySelectorAll('.game-link-wrapper').forEach(wrapper => {
             wrapper.addEventListener('click', handleGameClick);
         });
 
+        document.querySelectorAll('.overlay-btn').forEach(btn => {
+            btn.addEventListener('click', handleOverlayClick);
+        });
+
+        // إخفاء شاشة التحميل
         setTimeout(() => {
             splashScreen.classList.add('hidden');
             mainContent.classList.add('visible');
-
             setTimeout(() => {
                 splashScreen.style.display = 'none';
             }, 1000);
         }, DURATION);
         
-        // ربط أزرار الإيداع والسحب لفتح النوافذ
-        document.getElementById('deposit-btn').onclick = () => { 
-            document.getElementById('deposit-modal').style.display = "block"; 
-        }
-        document.getElementById('withdraw-btn').onclick = () => { 
-            document.getElementById('withdraw-modal').style.display = "block"; 
-        }
-        
-        // تحديث الواجهة عند البداية (منفصلة لوظيفة الدخول/الخروج)
-        // إذا كان هناك مستخدم مسجل مسبقًا، سيتم تحديث الواجهة
+        // التحقق من حالة الدخول عند تحميل الصفحة
         const storedPhone = localStorage.getItem('activeUserPhone');
         if (storedPhone && localStorage.getItem(storedPhone)) {
              const user = JSON.parse(localStorage.getItem(storedPhone));
-             updateUIForLoggedInUser(user.name, user.balance || 100.00); // افتراض رصيد 100
+             updateUIForLoggedInUser(user.name, user.balance || 100.00); 
         } else {
              updateUIForLoggedInUser(null, 0.00);
         }
-    });
 
-    // إدارة النوافذ المنبثقة (Modals)
-    const loginModal = document.getElementById('login-modal');
-    const signupModal = document.getElementById('signup-modal');
-    const loginBtn = document.getElementById('login-btn');
-    const signupBtn = document.getElementById('signup-btn');
-    const closeBtns = document.querySelectorAll('.close-btn');
+        // إدارة فتح وإغلاق الـ Modals
+        const loginModal = document.getElementById('login-modal');
+        const signupModal = document.getElementById('signup-modal');
+        document.getElementById('login-btn').onclick = () => { loginModal.style.display = "block"; }
+        document.getElementById('signup-btn').onclick = () => { signupModal.style.display = "block"; }
+        document.getElementById('deposit-btn').onclick = () => { document.getElementById('deposit-modal').style.display = "block"; }
+        document.getElementById('withdraw-btn').onclick = () => { document.getElementById('withdraw-modal').style.display = "block"; }
 
-    loginBtn.onclick = () => { loginModal.style.display = "block"; }
-    signupBtn.onclick = () => { signupModal.style.display = "block"; }
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.onclick = function() {
+                document.getElementById(this.getAttribute('data-modal')).style.display = "none";
+            }
+        });
 
-    closeBtns.forEach(btn => {
-        btn.onclick = function() {
-            document.getElementById(this.getAttribute('data-modal')).style.display = "none";
-            document.getElementById('register-message').textContent = ''; 
-            document.getElementById('login-message').textContent = '';    
-        }
-    });
-
-    window.onclick = (event) => {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-            document.getElementById('register-message').textContent = '';
-            document.getElementById('login-message').textContent = '';
-        }
-    }
-
-    // --------------------------------------------------------
-    // 4. وظيفة إنشاء حساب جديد (Register Logic)
-    // --------------------------------------------------------
-    document.getElementById('register-submit').onclick = () => {
-        const name = document.getElementById('reg-name').value.trim();
-        const phone = document.getElementById('reg-phone').value.trim();
-        const password = document.getElementById('reg-password').value;
-        const confirmPassword = document.getElementById('reg-confirm-password').value;
-        const messageDiv = document.getElementById('register-message');
-        
-        messageDiv.style.color = 'var(--game-box-color)';
-        messageDiv.textContent = ''; 
-
-        if (!name || !phone || !password || !confirmPassword) {
-            messageDiv.textContent = 'الرجاء ملء جميع الحقول.';
-            return;
-        }
-
-        if (password.length < 6 || !(/[A-Z]/.test(password) && /[a-z]/.test(password))) {
-            messageDiv.textContent = 'كلمة السر يجب أن تكون 6 أحرف على الأقل وتحتوي على أحرف كبيرة وصغيرة.';
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            messageDiv.textContent = 'كلمتا السر غير متطابقتين.';
-            return;
+        window.onclick = (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
         }
         
-        if (localStorage.getItem(phone)) {
-            messageDiv.textContent = 'رقم الهاتف هذا مسجل بالفعل. يرجى تسجيل الدخول.';
-            return;
-        }
-
-        const userData = {
-            name: name,
-            password: password,
-            balance: 100.00 // رصيد افتراضي للمستخدم الجديد
-        };
-        localStorage.setItem(phone, JSON.stringify(userData));
-
-        messageDiv.style.color = 'green';
-        messageDiv.textContent = '✅ تم إنشاء الحساب بنجاح! يتم تحويلك للدخول...';
-        
-        setTimeout(() => {
-            signupModal.style.display = "none";
-            loginModal.style.display = "block";
-            document.getElementById('login-phone').value = phone; 
-            document.getElementById('login-message').textContent = '';
-        }, 2000);
-    }
-
-    // --------------------------------------------------------
-    // 5. وظيفة تسجيل الدخول (Login Logic)
-    // --------------------------------------------------------
-    document.getElementById('login-submit').onclick = () => {
-        const phone = document.getElementById('login-phone').value.trim();
-        const password = document.getElementById('login-password').value;
-        const messageDiv = document.getElementById('login-message');
-        
-        messageDiv.style.color = 'var(--game-box-color)';
-        messageDiv.textContent = ''; 
-        
-        if (!phone || !password) {
-            messageDiv.textContent = 'الرجاء إدخال رقم الهاتف وكلمة السر.';
-            return;
-        }
-
-        const storedUserData = localStorage.getItem(phone);
-
-        if (!storedUserData) {
-            messageDiv.textContent = '❌ خطا: رقم الهاتف غير مسجل.';
-            return;
-        }
-
-        const user = JSON.parse(storedUserData);
-
-        if (user.password === password) {
+        // منطق التسجيل
+        document.getElementById('register-submit').onclick = () => {
+            const phone = document.getElementById('reg-phone').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const name = document.getElementById('reg-name').value.trim();
+            const messageDiv = document.getElementById('register-message');
+            
+            if (localStorage.getItem(phone)) {
+                messageDiv.textContent = 'رقم الهاتف هذا مسجل بالفعل. يرجى تسجيل الدخول.';
+                return;
+            }
+            const userData = { name: name, password: password, balance: 100.00 };
+            localStorage.setItem(phone, JSON.stringify(userData));
+            
             messageDiv.style.color = 'green';
-            messageDiv.textContent = `✅ مرحبا بك ${user.name}! جاري الدخول...`;
-            
-            // حفظ رقم المستخدم النشط
-            localStorage.setItem('activeUserPhone', phone);
-            
-            // تنفيذ التحديثات المطلوبة بعد نجاح الدخول
-            updateUIForLoggedInUser(user.name, user.balance || 0.00); 
-
+            messageDiv.textContent = '✅ تم إنشاء الحساب بنجاح! يتم تحويلك للدخول...';
             setTimeout(() => {
-                loginModal.style.display = "none";
+                signupModal.style.display = "none";
+                loginModal.style.display = "block";
+                document.getElementById('login-phone').value = phone; 
             }, 2000);
-            
-        } else {
-            messageDiv.textContent = '❌ خطا: كلمة السر غير صحيحة.';
         }
-    }
+
+        // منطق الدخول
+        document.getElementById('login-submit').onclick = () => {
+            const phone = document.getElementById('login-phone').value.trim();
+            const password = document.getElementById('login-password').value;
+            const messageDiv = document.getElementById('login-message');
+            const storedUserData = localStorage.getItem(phone);
+
+            if (!storedUserData) {
+                messageDiv.textContent = '❌ خطا: رقم الهاتف غير مسجل.';
+                return;
+            }
+            const user = JSON.parse(storedUserData);
+            if (user.password === password) {
+                messageDiv.style.color = 'green';
+                messageDiv.textContent = `✅ مرحبا بك ${user.name}! جاري الدخول...`;
+                localStorage.setItem('activeUserPhone', phone);
+                updateUIForLoggedInUser(user.name, user.balance || 0.00); 
+                setTimeout(() => {
+                    loginModal.style.display = "none";
+                }, 2000);
+            } else {
+                messageDiv.textContent = '❌ خطا: كلمة السر غير صحيحة.';
+            }
+        }
+    });
+
 </script>
 </body>
 </html>
